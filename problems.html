@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Studio - Coding Problems</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #22c55e;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+        
+        .problem-card {
+            transition: all 0.3s ease;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .difficulty-easy {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .difficulty-medium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .difficulty-hard {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .tag {
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .filter-active {
+            background-color: #22c55e !important;
+            color: white !important;
+        }
+        
+        .pagination-active {
+            background-color: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+        
+        .code-block {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .example-tab {
+            transition: all 0.2s ease;
+        }
+        
+        .example-tab.active {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .hint-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .approach-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .note-box {
+            background-color: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+        
+        .solved-badge {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .attempted-badge {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        
+        .language-tag {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        /* Fixed line-clamp with vendor prefixes and standard property */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-clamp: 2;
+            box-orient: vertical;
+        }
+        
+        .language-selector {
+            transition: all 0.2s ease;
+        }
+        
+        .language-selector:hover {
+            transform: scale(1.05);
+        }
+        
+        .language-selector.active {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .user-language-indicator {
+            background: linear-gradient(45deg, #22c55e, #3b82f6);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Add this to your existing styles */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.problem-highlight {
+    border: 2px solid #22c55e !important;
+    background-color: #f0fdf4 !important;
+    box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.3) !important;
+    animation: pulse 2s infinite;
+}
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <div class="h-8 w-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-md flex items-center justify-center shadow-md">
+                                <i data-feather="code" class="text-white"></i>
+                            </div>
+                            <span class="ml-2 text-xl font-bold text-gray-900">CS Studio</span>
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-8 sm:flex sm:space-x-6">
+                        <a href="index.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Home
+                        </a>
+                        <a href="courses.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Courses
+                        </a>
+                        <a href="roadmaps.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Roadmap
+                        </a>
+                        <a href="code.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Code Editor
+                        </a>
+                          <a href="problems.html" class="nav-link active-nav text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Problems
+                        </a>
+                        <a href="leaderboard.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Leaderboard
+                        </a>
+                        <a href="community.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Community
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center shadow-md transition-all duration-300">
+                        <i class="fas fa-user mr-2"></i>
+                        Sign In
+                    </a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="courses.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Courses</a>
+                <a href="roadmaps.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Roadmap</a>
+                <a href="code.html" class="border-transparent text-gray=500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Code Editor</a>
+                <a href="#" class="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Problems</a>
+                <a href="leaderboard.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Leaderboard</a>
+                <a href="community.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Community</a>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <div class="flex items-center px-4">
+                        <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center w-full justify-center shadow-md">
+                            <i class="fas fa-user mr-2"></i>
+                            Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="bg-gradient-to-r from-primary-500 to-primary-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+                    Coding Problems
+                </h1>
+                <p class="mt-4 text-xl max-w-3xl mx-auto">
+                    Sharpen your skills with our collection of 250+ language-specific coding challenges. Filter by difficulty, topic, or language to find the perfect problem to solve.
+                </p>
+                <div class="mt-8 flex justify-center">
+                    <div class="inline-flex rounded-md shadow">
+                        <a href="code.html" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-code mr-2"></i>
+                            Try Code Editor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white py-8 border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">250</div>
+                    <div class="text-sm text-gray-500 mt-1">Problems</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">5</div>
+                    <div class="text-sm text-gray-500 mt-1">Languages</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">50</div>
+                    <div class="text-sm text-gray-500 mt-1">Per Language</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">95%</div>
+                    <div class="text-sm text-gray-500 mt-1">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Filters</h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">Language</h4>
+                        <select id="language-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500">
+                            <option value="all">All Languages</option>
+                            <option value="c">C</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="cpp">C++</option>
+                            <option value="javascript">JavaScript</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">Difficulty</h4>
+                        <div class="space-y-2">
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md difficulty-easy" data-filter="difficulty" data-value="easy">
+                                <div class="flex items-center">
+                                    <span class="w-3 h-3 rounded-full bg-green-500 mr-2"></span>
+                                    Easy
+                                </div>
+                            </button>
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md difficulty-medium" data-filter="difficulty" data-value="medium">
+                                <div class="flex items-center">
+                                    <span class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>
+                                    Medium
+                                </div>
+                            </button>
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md difficulty-hard" data-filter="difficulty" data-value="hard">
+                                <div class="flex items-center">
+                                    <span class="w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+                                    Hard
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">Status</h4>
+                        <div class="space-y-2">
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 filter-active" data-filter="status" data-value="all">
+                                All Problems
+                            </button>
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200" data-filter="status" data-value="solved">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    Solved
+                                </div>
+                            </button>
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200" data-filter="status" data-value="attempted">
+                                <div class="flex items-center">
+                                    <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                                    Attempted
+                                </div>
+                            </button>
+                            <button class="filter-btn w-full text-left px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200" data-filter="status" data-value="todo">
+                                <div class="flex items-center">
+                                    <i class="fas fa-circle text-gray-400 mr-2"></i>
+                                    To Do
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button id="reset-filters" class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-300">
+                        Reset All Filters
+                    </button>
+                </div>
+            </div>
+            
+            <div class="lg:w-3/4">
+                <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <input type="text" id="search-input" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500" placeholder="Search problems...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="problems-container" class="grid grid-cols-1 gap-6">
+                    </div>
+                
+                <div class="mt-8 flex justify-center">
+                    <nav id="pagination-container" class="flex items-center space-x-2">
+                        </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-base text-gray-400">
+                    &copy; 2023 CS Studio. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    
+       <script>
+    // Initialize Feather Icons
+    feather.replace();
+
+    // Mobile menu toggle
+    const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+    }
+
+    // Function to highlight and scroll to a specific problem
+    function highlightProblem(problemId) {
+        if (!problemId) return;
+        
+        // Convert to number for comparison
+        problemId = parseInt(problemId);
+        
+        // Find the problem card with the specified ID
+        const problemCards = document.querySelectorAll('.problem-card');
+        let found = false;
+        
+        problemCards.forEach(card => {
+            const solveBtn = card.querySelector('.solve-btn');
+            if (solveBtn && parseInt(solveBtn.getAttribute('data-id')) === problemId) {
+                // Add highlight styling
+                card.classList.add('problem-highlight');
+                
+                // Scroll to the problem
+                setTimeout(() => {
+                    card.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center',
+                        inline: 'nearest'
+                    });
+                }, 100);
+                
+                found = true;
+                
+                // Remove highlight after 5 seconds
+                setTimeout(() => {
+                    card.classList.remove('problem-highlight');
+                }, 5000);
+            }
+        });
+        
+        if (!found) {
+            console.log(`Problem ${problemId} not found on current page`);
+        }
+    }
+
+    // --- START: GENERATE LANGUAGE-SPECIFIC PROBLEMS LOGIC ---
+    const generateProblemsData = () => {
+        const allProblems = [];
+        let problemId = 1;
+
+        // C Language Problems (Low-Level, Manual Implementation)
+        const cProblems = [
+            // EASY (20 problems)
+            { title: "Simple I/O and Arithmetic", difficulty: "easy", topics: ["c-topics", "io", "arithmetic", "basic"] },
+            { title: "Even/Odd Check", difficulty: "easy", topics: ["c-topics", "conditionals", "modulo"] },
+            { title: "Max of 3 Numbers", difficulty: "easy", topics: ["c-topics", "conditionals", "comparison"] },
+            { title: "Factorial (Iterative)", difficulty: "easy", topics: ["c-topics", "loops", "math"] },
+            { title: "Prime Number Check (Simple)", difficulty: "easy", topics: ["c-topics", "loops", "math"] },
+            { title: "GCD/LCM Calculation", difficulty: "easy", topics: ["c-topics", "math", "algorithms"] },
+            { title: "Array Sum/Average", difficulty: "easy", topics: ["c-topics", "arrays", "math"] },
+            { title: "Linear Search in Array", difficulty: "easy", topics: ["c-topics", "arrays", "searching"] },
+            { title: "Reverse Array (In-place)", difficulty: "easy", topics: ["c-topics", "arrays", "manipulation"] },
+            { title: "Find Duplicates (Brute Force)", difficulty: "easy", topics: ["c-topics", "arrays", "searching"] },
+            { title: "Count Element Frequency", difficulty: "easy", topics: ["c-topics", "arrays", "counting"] },
+            { title: "String Length Calculation", difficulty: "easy", topics: ["c-topics", "strings", "pointers"] },
+            { title: "Palindrome Check (Manual Loop)", difficulty: "easy", topics: ["c-topics", "strings", "palindrome"] },
+            { title: "Copy String Manually", difficulty: "easy", topics: ["c-topics", "strings", "pointers"] },
+            { title: "Simple for loop pattern", difficulty: "easy", topics: ["c-topics", "loops", "patterns"] },
+            { title: "Swap two numbers (using pointers)", difficulty: "easy", topics: ["c-topics", "pointers", "functions"] },
+            { title: "Pointer Arithmetic basic", difficulty: "easy", topics: ["c-topics", "pointers", "arithmetic"] },
+            { title: "Struct definition and basic usage", difficulty: "easy", topics: ["c-topics", "structs", "data-structures"] },
+            { title: "Simple menu-driven program (switch)", difficulty: "easy", topics: ["c-topics", "switch", "menu"] },
+            { title: "Decimal to Binary conversion", difficulty: "easy", topics: ["c-topics", "conversion", "math"] },
+
+            // MEDIUM (20 problems)
+            { title: "Implement a Linked List (Insert/Delete/Traversal)", difficulty: "medium", topics: ["c-topics", "linked-list", "data-structures"] },
+            { title: "Implement Stack from scratch (using array)", difficulty: "medium", topics: ["c-topics", "stack", "data-structures"] },
+            { title: "Implement Queue from scratch (using array)", difficulty: "medium", topics: ["c-topics", "queue", "data-structures"] },
+            { title: "Binary Search (Recursive)", difficulty: "medium", topics: ["c-topics", "searching", "recursion"] },
+            { title: "Bubble Sort/Insertion Sort", difficulty: "medium", topics: ["c-topics", "sorting", "algorithms"] },
+            { title: "Merge two sorted arrays", difficulty: "medium", topics: ["c-topics", "arrays", "merging"] },
+            { title: "Dynamic Array allocation (malloc)", difficulty: "medium", topics: ["c-topics", "memory-management", "pointers"] },
+            { title: "Array of Pointers", difficulty: "medium", topics: ["c-topics", "pointers", "arrays"] },
+            { title: "Matrix Transpose", difficulty: "medium", topics: ["c-topics", "matrix", "2d-arrays"] },
+            { title: "String Substring Search (Naive)", difficulty: "medium", topics: ["c-topics", "strings", "searching"] },
+            { title: "Reverse Words in a String", difficulty: "medium", topics: ["c-topics", "strings", "manipulation"] },
+            { title: "Tower of Hanoi", difficulty: "medium", topics: ["c-topics", "recursion", "algorithms"] },
+            { title: "Generate all combinations", difficulty: "medium", topics: ["c-topics", "recursion", "combinations"] },
+            { title: "Permutations of a string (simple swap)", difficulty: "medium", topics: ["c-topics", "recursion", "permutations"] },
+            { title: "DFS on a basic 2D grid", difficulty: "medium", topics: ["c-topics", "graph", "dfs"] },
+            { title: "Simple Union-Find/DSU (Array-based)", difficulty: "medium", topics: ["c-topics", "union-find", "data-structures"] },
+            { title: "Array rotation by K steps", difficulty: "medium", topics: ["c-topics", "arrays", "rotation"] },
+            { title: "Josephus Problem", difficulty: "medium", topics: ["c-topics", "algorithms", "simulation"] },
+            { title: "Simple File I/O (read a line)", difficulty: "medium", topics: ["c-topics", "file-io", "input-output"] },
+            { title: "Function Pointers basic usage", difficulty: "medium", topics: ["c-topics", "pointers", "functions"] },
+
+            // HARD (10 problems)
+            { title: "Implement a Binary Search Tree (BST) from scratch", difficulty: "hard", topics: ["c-topics", "bst", "trees"] },
+            { title: "Heap Sort implementation", difficulty: "hard", topics: ["c-topics", "sorting", "heap"] },
+            { title: "Dijkstra's Algorithm (manual implementation)", difficulty: "hard", topics: ["c-topics", "graph", "shortest-path"] },
+            { title: "0/1 Knapsack (Dynamic Programming)", difficulty: "hard", topics: ["c-topics", "dp", "algorithms"] },
+            { title: "Longest Common Subsequence (LCS)", difficulty: "hard", topics: ["c-topics", "dp", "strings"] },
+            { title: "Bit Manipulation for set checking", difficulty: "hard", topics: ["c-topics", "bit-manipulation", "optimization"] },
+            { title: "Custom memcpy or strcpy implementation", difficulty: "hard", topics: ["c-topics", "memory", "optimization"] },
+            { title: "N-Queens Problem (Backtracking)", difficulty: "hard", topics: ["c-topics", "backtracking", "algorithms"] },
+            { title: "Graph Cycle Detection (DFS-based)", difficulty: "hard", topics: ["c-topics", "graph", "cycle-detection"] },
+            { title: "Generic Linked List using void pointers", difficulty: "hard", topics: ["c-topics", "linked-list", "generics"] }
+        ]; 
+
+        // Python Language Problems (Pythonic Features and Libraries)
+        const pythonProblems = [
+            // EASY (20 problems)
+            { title: "Print Patterns with string multiplication", difficulty: "easy", topics: ["python-topics", "strings", "patterns"] },
+            { title: "if-else on variable type", difficulty: "easy", topics: ["python-topics", "conditionals", "types"] },
+            { title: "Simple try-except usage", difficulty: "easy", topics: ["python-topics", "exceptions", "error-handling"] },
+            { title: "List Comprehension (Basic)", difficulty: "easy", topics: ["python-topics", "list-comprehension", "pythonic"] },
+            { title: "Reverse a List (Slicing)", difficulty: "easy", topics: ["python-topics", "lists", "slicing"] },
+            { title: "Find Common Elements in two lists (using Set)", difficulty: "easy", topics: ["python-topics", "sets", "lists"] },
+            { title: "Remove Duplicates from a list", difficulty: "easy", topics: ["python-topics", "lists", "duplicates"] },
+            { title: "Find Second Largest element", difficulty: "easy", topics: ["python-topics", "lists", "searching"] },
+            { title: "Flatten a shallow nested list", difficulty: "easy", topics: ["python-topics", "lists", "flattening"] },
+            { title: "Palindrome Check (Slicing)", difficulty: "easy", topics: ["python-topics", "strings", "palindrome"] },
+            { title: "Count Word Frequency (using dict)", difficulty: "easy", topics: ["python-topics", "dictionaries", "counting"] },
+            { title: "Check Anagram", difficulty: "easy", topics: ["python-topics", "strings", "anagram"] },
+            { title: "Title-case conversion", difficulty: "easy", topics: ["python-topics", "strings", "manipulation"] },
+            { title: "Basic Dictionary manipulation", difficulty: "easy", topics: ["python-topics", "dictionaries", "data-structures"] },
+            { title: "Set Union/Intersection", difficulty: "easy", topics: ["python-topics", "sets", "operations"] },
+            { title: "Factorial (Recursive)", difficulty: "easy", topics: ["python-topics", "recursion", "math"] },
+            { title: "Function with default arguments", difficulty: "easy", topics: ["python-topics", "functions", "parameters"] },
+            { title: "Simple Lambda function usage", difficulty: "easy", topics: ["python-topics", "lambda", "functional"] },
+            { title: "Fibonacci sequence (basic iteration)", difficulty: "easy", topics: ["python-topics", "loops", "math"] },
+            { title: "Simple OOP Class definition", difficulty: "easy", topics: ["python-topics", "oop", "classes"] },
+
+            // MEDIUM (20 problems)
+            { title: "Two-Pointers (Find pair with sum)", difficulty: "medium", topics: ["python-topics", "two-pointers", "algorithms"] },
+            { title: "Sliding Window (Max subarray sum of size K)", difficulty: "medium", topics: ["python-topics", "sliding-window", "algorithms"] },
+            { title: "Kadane's Algorithm (Max Subarray Sum)", difficulty: "medium", topics: ["python-topics", "dp", "algorithms"] },
+            { title: "Rotate a list by K", difficulty: "medium", topics: ["python-topics", "lists", "rotation"] },
+            { title: "Fibonacci with @lru_cache (Memoization)", difficulty: "medium", topics: ["python-topics", "memoization", "recursion"] },
+            { title: "Climbing Stairs (DP)", difficulty: "medium", topics: ["python-topics", "dp", "algorithms"] },
+            { title: "Permutations of a list (using itertools)", difficulty: "medium", topics: ["python-topics", "itertools", "permutations"] },
+            { title: "Implement Stack/Queue using deque", difficulty: "medium", topics: ["python-topics", "deque", "data-structures"] },
+            { title: "Custom Class with a @property decorator", difficulty: "medium", topics: ["python-topics", "decorators", "oop"] },
+            { title: "Use map/filter/reduce", difficulty: "medium", topics: ["python-topics", "functional", "higher-order"] },
+            { title: "Simple Generator function (yield)", difficulty: "medium", topics: ["python-topics", "generators", "iterators"] },
+            { title: "Basic Decorator implementation", difficulty: "medium", topics: ["python-topics", "decorators", "functions"] },
+            { title: "Read CSV file and process data", difficulty: "medium", topics: ["python-topics", "file-io", "csv"] },
+            { title: "Write a dictionary to a JSON file", difficulty: "medium", topics: ["python-topics", "json", "file-io"] },
+            { title: "Exception handling for file I/O", difficulty: "medium", topics: ["python-topics", "exceptions", "file-io"] },
+            { title: "Binary Search (Iterative)", difficulty: "medium", topics: ["python-topics", "searching", "algorithms"] },
+            { title: "Graph BFS using dict (adjacency list)", difficulty: "medium", topics: ["python-topics", "graph", "bfs"] },
+            { title: "Find first non-repeating character", difficulty: "medium", topics: ["python-topics", "strings", "searching"] },
+            { title: "Check if a string is a valid number", difficulty: "medium", topics: ["python-topics", "strings", "validation"] },
+            { title: "Merge two dictionaries", difficulty: "medium", topics: ["python-topics", "dictionaries", "merging"] },
+
+            // HARD (10 problems)
+            { title: "0/1 Knapsack (DP implementation)", difficulty: "hard", topics: ["python-topics", "dp", "algorithms"] },
+            { title: "Dijkstra's Algorithm (using heapq)", difficulty: "hard", topics: ["python-topics", "graph", "shortest-path"] },
+            { title: "Graph Traversal (DFS) on adjacency list", difficulty: "hard", topics: ["python-topics", "graph", "dfs"] },
+            { title: "Longest Increasing Subsequence (LIS) with O(NlogN) approach", difficulty: "hard", topics: ["python-topics", "dp", "algorithms"] },
+            { title: "Design an LRU Cache using OrderedDict", difficulty: "hard", topics: ["python-topics", "cache", "data-structures"] },
+            { title: "Implement a custom Context Manager (with statement)", difficulty: "hard", topics: ["python-topics", "context-managers", "resources"] },
+            { title: "Simple Multithreaded problem (conceptual)", difficulty: "hard", topics: ["python-topics", "multithreading", "concurrency"] },
+            { title: "Decorator to measure function execution time", difficulty: "hard", topics: ["python-topics", "decorators", "performance"] },
+            { title: "Generator for infinite Fibonacci sequence", difficulty: "hard", topics: ["python-topics", "generators", "infinite"] },
+            { title: "Complex list comprehension (multiple loops/conditions)", difficulty: "hard", topics: ["python-topics", "list-comprehension", "advanced"] }
+        ];
+
+        // Java Language Problems (OOP Principles and Collections Framework)
+        const javaProblems = [
+            // EASY (20 problems)
+            { title: "Read Integer/String (using Scanner)", difficulty: "easy", topics: ["java-topics", "io", "scanner"] },
+            { title: "Simple Loop Patterns", difficulty: "easy", topics: ["java-topics", "loops", "patterns"] },
+            { title: "Factorial", difficulty: "easy", topics: ["java-topics", "loops", "math"] },
+            { title: "Prime Check", difficulty: "easy", topics: ["java-topics", "loops", "math"] },
+            { title: "GCD (Euclidean)", difficulty: "easy", topics: ["java-topics", "math", "algorithms"] },
+            { title: "Array Sum/Average", difficulty: "easy", topics: ["java-topics", "arrays", "math"] },
+            { title: "Find Max/Min in Array", difficulty: "easy", topics: ["java-topics", "arrays", "searching"] },
+            { title: "Array Rotation", difficulty: "easy", topics: ["java-topics", "arrays", "rotation"] },
+            { title: "Matrix Addition/Transpose", difficulty: "easy", topics: ["java-topics", "matrix", "2d-arrays"] },
+            { title: "String Palindrome", difficulty: "easy", topics: ["java-topics", "strings", "palindrome"] },
+            { title: "Check Anagram", difficulty: "easy", topics: ["java-topics", "strings", "anagram"] },
+            { title: "StringBuilder usage", difficulty: "easy", topics: ["java-topics", "strings", "stringbuilder"] },
+            { title: "Basic Class definition", difficulty: "easy", topics: ["java-topics", "oop", "classes"] },
+            { title: "Create and use an Interface", difficulty: "easy", topics: ["java-topics", "oop", "interfaces"] },
+            { title: "Basic Inheritance", difficulty: "easy", topics: ["java-topics", "oop", "inheritance"] },
+            { title: "Method Overloading", difficulty: "easy", topics: ["java-topics", "oop", "polymorphism"] },
+            { title: "Array remove duplicates (manual)", difficulty: "easy", topics: ["java-topics", "arrays", "duplicates"] },
+            { title: "Fibonacci sequence (iterative)", difficulty: "easy", topics: ["java-topics", "loops", "math"] },
+            { title: "Simple unit conversion", difficulty: "easy", topics: ["java-topics", "math", "conversion"] },
+            { title: "Wrapper Classes (Integer.parseInt)", difficulty: "easy", topics: ["java-topics", "wrapper-classes", "conversion"] },
+
+            // MEDIUM (20 problems)
+            { title: "Use ArrayList for dynamic data", difficulty: "medium", topics: ["java-topics", "arraylist", "collections"] },
+            { title: "Use HashMap for frequency counting (Two-Sum)", difficulty: "medium", topics: ["java-topics", "hashmap", "collections"] },
+            { title: "Use HashSet for duplicate check", difficulty: "medium", topics: ["java-topics", "hashset", "collections"] },
+            { title: "Implement Queue using LinkedList (from Collections)", difficulty: "medium", topics: ["java-topics", "queue", "collections"] },
+            { title: "Custom Sorting with Comparator", difficulty: "medium", topics: ["java-topics", "sorting", "comparator"] },
+            { title: "Implement a basic Stack using ArrayDeque", difficulty: "medium", topics: ["java-topics", "stack", "collections"] },
+            { title: "Binary Search (Iterative)", difficulty: "medium", topics: ["java-topics", "searching", "algorithms"] },
+            { title: "Two-Pointers (Sorted Array pair sum)", difficulty: "medium", topics: ["java-topics", "two-pointers", "algorithms"] },
+            { title: "Sliding Window (Max sum)", difficulty: "medium", topics: ["java-topics", "sliding-window", "algorithms"] },
+            { title: "Recursion (Tower of Hanoi)", difficulty: "medium", topics: ["java-topics", "recursion", "algorithms"] },
+            { title: "Abstract Class usage", difficulty: "medium", topics: ["java-topics", "oop", "abstract-class"] },
+            { title: "Method Overriding", difficulty: "medium", topics: ["java-topics", "oop", "polymorphism"] },
+            { title: "Basic Exception Handling (try-catch)", difficulty: "medium", topics: ["java-topics", "exceptions", "error-handling"] },
+            { title: "Simple Generics usage (e.g., generic Box class)", difficulty: "medium", topics: ["java-topics", "generics", "type-safety"] },
+            { title: "Simple Graph BFS (using Queue)", difficulty: "medium", topics: ["java-topics", "graph", "bfs"] },
+            { title: "Simple Graph DFS (using Stack)", difficulty: "medium", topics: ["java-topics", "graph", "dfs"] },
+            { title: "Node class for custom Linked List", difficulty: "medium", topics: ["java-topics", "linked-list", "data-structures"] },
+            { title: "Check if two matrices are equal", difficulty: "medium", topics: ["java-topics", "matrix", "comparison"] },
+            { title: "Find median of two sorted arrays", difficulty: "medium", topics: ["java-topics", "arrays", "median"] },
+            { title: "Convert number to words", difficulty: "medium", topics: ["java-topics", "strings", "conversion"] },
+
+            // HARD (10 problems)
+            { title: "Use PriorityQueue for K-th Largest element", difficulty: "hard", topics: ["java-topics", "priorityqueue", "collections"] },
+            { title: "Implement a custom Trie structure", difficulty: "hard", topics: ["java-topics", "trie", "data-structures"] },
+            { title: "Dynamic Programming (Longest Common Subsequence)", difficulty: "hard", topics: ["java-topics", "dp", "algorithms"] },
+            { title: "Graph: Dijkstra's Shortest Path", difficulty: "hard", topics: ["java-topics", "graph", "shortest-path"] },
+            { title: "Backtracking (N-Queens)", difficulty: "hard", topics: ["java-topics", "backtracking", "algorithms"] },
+            { title: "Handling very large numbers with BigInteger", difficulty: "hard", topics: ["java-topics", "biginteger", "math"] },
+            { title: "Basic Multithreading problem (implementing Runnable)", difficulty: "hard", topics: ["java-topics", "multithreading", "concurrency"] },
+            { title: "Implement a generic container class (Advanced Generics)", difficulty: "hard", topics: ["java-topics", "generics", "containers"] },
+            { title: "Sudoku Solver (Backtracking)", difficulty: "hard", topics: ["java-topics", "backtracking", "puzzle"] },
+            { title: "Graph Cycle Detection (Directed/Undirected)", difficulty: "hard", topics: ["java-topics", "graph", "cycle-detection"] }
+        ];
+
+        // C++ Language Problems (STL, Templates, and Performance)
+        const cppProblems = [
+            // EASY (20 problems)
+            { title: "Simple I/O (cin/cout)", difficulty: "easy", topics: ["cpp-topics", "io", "basic"] },
+            { title: "Variable scope/const", difficulty: "easy", topics: ["cpp-topics", "variables", "scope"] },
+            { title: "Function calls and headers", difficulty: "easy", topics: ["cpp-topics", "functions", "headers"] },
+            { title: "Array traversal", difficulty: "easy", topics: ["cpp-topics", "arrays", "traversal"] },
+            { title: "Linear Search", difficulty: "easy", topics: ["cpp-topics", "arrays", "searching"] },
+            { title: "Simple pointer usage", difficulty: "easy", topics: ["cpp-topics", "pointers", "basic"] },
+            { title: "Array of struct", difficulty: "easy", topics: ["cpp-topics", "structs", "arrays"] },
+            { title: "std::vector initialization", difficulty: "easy", topics: ["cpp-topics", "vector", "stl"] },
+            { title: "std::vector push_back/pop_back", difficulty: "easy", topics: ["cpp-topics", "vector", "stl"] },
+            { title: "Finding Max element in a vector", difficulty: "easy", topics: ["cpp-topics", "vector", "searching"] },
+            { title: "std::string Palindrome", difficulty: "easy", topics: ["cpp-topics", "string", "palindrome"] },
+            { title: "String Concatenation", difficulty: "easy", topics: ["cpp-topics", "string", "manipulation"] },
+            { title: "Find a character in a string", difficulty: "easy", topics: ["cpp-topics", "string", "searching"] },
+            { title: "Factorial", difficulty: "easy", topics: ["cpp-topics", "loops", "math"] },
+            { title: "Prime Check", difficulty: "easy", topics: ["cpp-topics", "loops", "math"] },
+            { title: "GCD (simple)", difficulty: "easy", topics: ["cpp-topics", "math", "algorithms"] },
+            { title: "Basic Class definition", difficulty: "easy", topics: ["cpp-topics", "oop", "classes"] },
+            { title: "Simple copy constructor demonstration", difficulty: "easy", topics: ["cpp-topics", "oop", "constructors"] },
+            { title: "Pass-by-reference", difficulty: "easy", topics: ["cpp-topics", "functions", "parameters"] },
+            { title: "Basic template function", difficulty: "easy", topics: ["cpp-topics", "templates", "generics"] },
+
+            // MEDIUM (20 problems)
+            { title: "Frequency count with std::map", difficulty: "medium", topics: ["cpp-topics", "map", "stl"] },
+            { title: "Duplicate check with std::set", difficulty: "medium", topics: ["cpp-topics", "set", "stl"] },
+            { title: "Using std::queue / std::stack", difficulty: "medium", topics: ["cpp-topics", "queue", "stack", "stl"] },
+            { title: "Use std::pair or std::tuple", difficulty: "medium", topics: ["cpp-topics", "pair", "tuple", "stl"] },
+            { title: "Binary Search on sorted std::vector", difficulty: "medium", topics: ["cpp-topics", "vector", "searching"] },
+            { title: "Custom sort using std::sort with a lambda", difficulty: "medium", topics: ["cpp-topics", "sorting", "lambda"] },
+            { title: "std::find/std::accumulate usage", difficulty: "medium", topics: ["cpp-topics", "algorithms", "stl"] },
+            { title: "Implement a Queue using two Stacks", difficulty: "medium", topics: ["cpp-topics", "queue", "stack"] },
+            { title: "Basic Linked List Class", difficulty: "medium", topics: ["cpp-topics", "linked-list", "data-structures"] },
+            { title: "Graph BFS using std::vector (adjacency list)", difficulty: "medium", topics: ["cpp-topics", "graph", "bfs"] },
+            { title: "Simple Class with a Virtual Function (Polymorphism concept)", difficulty: "medium", topics: ["cpp-topics", "oop", "polymorphism"] },
+            { title: "Simple Operator Overloading", difficulty: "medium", topics: ["cpp-topics", "oop", "operator-overloading"] },
+            { title: "Pass-by-const reference", difficulty: "medium", topics: ["cpp-topics", "functions", "parameters"] },
+            { title: "Template function with multiple types", difficulty: "medium", topics: ["cpp-topics", "templates", "generics"] },
+            { title: "Two-Pointers on vectors", difficulty: "medium", topics: ["cpp-topics", "two-pointers", "algorithms"] },
+            { title: "Sliding Window (using vector iterators)", difficulty: "medium", topics: ["cpp-topics", "sliding-window", "algorithms"] },
+            { title: "Matrix multiplication", difficulty: "medium", topics: ["cpp-topics", "matrix", "math"] },
+            { title: "Recursion (Combinations)", difficulty: "medium", topics: ["cpp-topics", "recursion", "combinations"] },
+            { title: "Tower of Hanoi", difficulty: "medium", topics: ["cpp-topics", "recursion", "algorithms"] },
+            { title: "Simple exception handling (try-catch)", difficulty: "medium", topics: ["cpp-topics", "exceptions", "error-handling"] },
+
+            // HARD (10 problems)
+            { title: "Use std::priority_queue for K-th Largest", difficulty: "hard", topics: ["cpp-topics", "priority-queue", "stl"] },
+            { title: "Design an LRU Cache using std::list and std::unordered_map", difficulty: "hard", topics: ["cpp-topics", "cache", "data-structures"] },
+            { title: "Custom Hashing for a user-defined struct in std::unordered_map", difficulty: "hard", topics: ["cpp-topics", "hashing", "stl"] },
+            { title: "Graph: Kruskal's/Prim's MST", difficulty: "hard", topics: ["cpp-topics", "graph", "mst"] },
+            { title: "Dynamic Programming (Edit Distance)", difficulty: "hard", topics: ["cpp-topics", "dp", "algorithms"] },
+            { title: "Backtracking (Subset Sum)", difficulty: "hard", topics: ["cpp-topics", "backtracking", "algorithms"] },
+            { title: "Implement a basic Segment Tree", difficulty: "hard", topics: ["cpp-topics", "segment-tree", "data-structures"] },
+            { title: "Simple demonstration of Smart Pointers", difficulty: "hard", topics: ["cpp-topics", "smart-pointers", "memory"] },
+            { title: "Advanced Template/Type Deduction (conceptual)", difficulty: "hard", topics: ["cpp-topics", "templates", "advanced"] },
+            { title: "Sieve of Eratosthenes (Optimized implementation)", difficulty: "hard", topics: ["cpp-topics", "algorithms", "math"] }
+        ];
+
+        // JavaScript Language Problems (Functional Programming, Async, and Prototypes)
+        const javascriptProblems = [
+            // EASY (20 problems)
+            { title: "Simple I/O (console)", difficulty: "easy", topics: ["javascript-topics", "io", "basic"] },
+            { title: "Basic Arithmetic", difficulty: "easy", topics: ["javascript-topics", "arithmetic", "math"] },
+            { title: "let/const/var scoping", difficulty: "easy", topics: ["javascript-topics", "variables", "scope"] },
+            { title: "Array.prototype.push/pop/slice", difficulty: "easy", topics: ["javascript-topics", "arrays", "methods"] },
+            { title: "Array.prototype.map (simple)", difficulty: "easy", topics: ["javascript-topics", "arrays", "functional"] },
+            { title: "Array.prototype.filter (simple)", difficulty: "easy", topics: ["javascript-topics", "arrays", "functional"] },
+            { title: "Reverse String", difficulty: "easy", topics: ["javascript-topics", "strings", "manipulation"] },
+            { title: "Palindrome Check", difficulty: "easy", topics: ["javascript-topics", "strings", "palindrome"] },
+            { title: "Count Vowels", difficulty: "easy", topics: ["javascript-topics", "strings", "counting"] },
+            { title: "Capitalize first letter of each word", difficulty: "easy", topics: ["javascript-topics", "strings", "manipulation"] },
+            { title: "Basic Object literal manipulation", difficulty: "easy", topics: ["javascript-topics", "objects", "data-structures"] },
+            { title: "Check for a property key", difficulty: "easy", topics: ["javascript-topics", "objects", "properties"] },
+            { title: "Simple JSON.stringify/parse", difficulty: "easy", topics: ["javascript-topics", "json", "serialization"] },
+            { title: "Simple Arrow Function", difficulty: "easy", topics: ["javascript-topics", "functions", "arrow"] },
+            { title: "Function with default parameters", difficulty: "easy", topics: ["javascript-topics", "functions", "parameters"] },
+            { title: "Simple Closure", difficulty: "easy", topics: ["javascript-topics", "closures", "scope"] },
+            { title: "Fibonacci sequence", difficulty: "easy", topics: ["javascript-topics", "loops", "math"] },
+            { title: "Prime check", difficulty: "easy", topics: ["javascript-topics", "loops", "math"] },
+            { title: "Simple Class (ES6) definition", difficulty: "easy", topics: ["javascript-topics", "oop", "classes"] },
+            { title: "Basic recursion (e.g., power of a number)", difficulty: "easy", topics: ["javascript-topics", "recursion", "math"] },
+
+            // MEDIUM (20 problems)
+            { title: "Complex map/filter/reduce chaining", difficulty: "medium", topics: ["javascript-topics", "arrays", "functional"] },
+            { title: "Flatten a nested array (recursive)", difficulty: "medium", topics: ["javascript-topics", "arrays", "recursion"] },
+            { title: "Group objects by a property (using reduce)", difficulty: "medium", topics: ["javascript-topics", "objects", "functional"] },
+            { title: "Two-Pointers (find pair sum)", difficulty: "medium", topics: ["javascript-topics", "two-pointers", "algorithms"] },
+            { title: "Sliding Window (max unique characters)", difficulty: "medium", topics: ["javascript-topics", "sliding-window", "algorithms"] },
+            { title: "Implement Stack using array", difficulty: "medium", topics: ["javascript-topics", "stack", "data-structures"] },
+            { title: "Implement Queue using array", difficulty: "medium", topics: ["javascript-topics", "queue", "data-structures"] },
+            { title: "Simple Promise creation", difficulty: "medium", topics: ["javascript-topics", "promises", "async"] },
+            { title: "Basic async/await usage", difficulty: "medium", topics: ["javascript-topics", "async", "await"] },
+            { title: "fetch data from a mocked API (conceptual I/O)", difficulty: "medium", topics: ["javascript-topics", "fetch", "api"] },
+            { title: "Debounce function implementation", difficulty: "medium", topics: ["javascript-topics", "functions", "optimization"] },
+            { title: "Prototypal Inheritance demonstration", difficulty: "medium", topics: ["javascript-topics", "prototypes", "inheritance"] },
+            { title: "Graph BFS using array as queue", difficulty: "medium", topics: ["javascript-topics", "graph", "bfs"] },
+            { title: "Anagram check with Map/Object", difficulty: "medium", topics: ["javascript-topics", "strings", "anagram"] },
+            { title: "Count set bits (Bitwise)", difficulty: "medium", topics: ["javascript-topics", "bitwise", "math"] },
+            { title: "Simple Event Emitter implementation", difficulty: "medium", topics: ["javascript-topics", "events", "patterns"] },
+            { title: "Convert number to Roman numeral", difficulty: "medium", topics: ["javascript-topics", "strings", "conversion"] },
+            { title: "Memoization (Manual or simple closure)", difficulty: "medium", topics: ["javascript-topics", "memoization", "optimization"] },
+            { title: "Array.prototype.sort with custom comparator", difficulty: "medium", topics: ["javascript-topics", "arrays", "sorting"] },
+            { title: "Error handling in callbacks", difficulty: "medium", topics: ["javascript-topics", "callbacks", "error-handling"] },
+
+            // HARD (10 problems)
+            { title: "Dynamic Programming (Coin Change ways)", difficulty: "hard", topics: ["javascript-topics", "dp", "algorithms"] },
+            { title: "Implement a Linked List using Class/Objects", difficulty: "hard", topics: ["javascript-topics", "linked-list", "data-structures"] },
+            { title: "Implement a basic Trie structure", difficulty: "hard", topics: ["javascript-topics", "trie", "data-structures"] },
+            { title: "Parallel execution of multiple promises (Promise.all)", difficulty: "hard", topics: ["javascript-topics", "promises", "async"] },
+            { title: "Sequential execution of promises", difficulty: "hard", topics: ["javascript-topics", "promises", "async"] },
+            { title: "Implement a simple Throttle function", difficulty: "hard", topics: ["javascript-topics", "functions", "optimization"] },
+            { title: "Implement an Observer/Pub-Sub Pattern", difficulty: "hard", topics: ["javascript-topics", "patterns", "events"] },
+            { title: "Deep Cloning an object (handling circular references)", difficulty: "hard", topics: ["javascript-topics", "objects", "cloning"] },
+            { title: "Design an LRU Cache (Map and Array/List)", difficulty: "hard", topics: ["javascript-topics", "cache", "data-structures"] },
+            { title: "Implement a generator for infinite sequences", difficulty: "hard", topics: ["javascript-topics", "generators", "iterators"] }
+        ];
+
+        // Add all problems in the specified order: C, Python, Java, C++, JavaScript
+        const languageOrder = [
+            { name: "c", problems: cProblems },
+            { name: "python", problems: pythonProblems },
+            { name: "java", problems: javaProblems },
+            { name: "cpp", problems: cppProblems },
+            { name: "javascript", problems: javascriptProblems }
+        ];
+
+        languageOrder.forEach(lang => {
+            lang.problems.forEach(problem => {
+                allProblems.push({
+                    id: problemId++,
+                    title: problem.title,
+                    difficulty: problem.difficulty,
+                    topics: [...problem.topics, lang.name],
+                    language: lang.name,
+                    acceptance: `${Math.floor(Math.random() * 30) + 40}%`, // 40-70% acceptance
+                    availableLanguages: [lang.name],
+                    description: generateProblemDescription(problem.title, problem.difficulty, problem.topics),
+                    examples: generateProblemExamples(problem.title),
+                    status: 'todo'
+                });
+            });
+        });
+
+        return allProblems;
+    };
+
+    // Helper function to generate context-rich problem descriptions
+    const generateProblemDescription = (title, difficulty, topics) => {
+        return `Implement a solution for "${title}". This ${difficulty} level problem covers ${topics.slice(0, 3).join(', ')}. Write efficient code that handles edge cases appropriately.`;
+    };
+
+    // Helper function to generate generic problem examples
+    const generateProblemExamples = (title) => {
+        return [
+            {
+                input: "Sample input values",
+                output: "Expected output result", 
+                explanation: "Explanation of how the input leads to the output"
+            }
+        ];
+    };
+
+    // --- END: GENERATE LANGUAGE-SPECIFIC PROBLEMS LOGIC ---
+
+    // Initialize problems data
+    const problemsData = generateProblemsData();
+
+    // Filter and pagination state
+    let currentFilters = {
+        difficulty: 'all',
+        status: 'all',
+        topic: 'all',
+        language: 'all',
+        search: '',
+        sort: 'id-asc'
+    };
+    
+    let currentPage = 1;
+    const problemsPerPage = 12;
+    
+    // Track selected problem for language modal
+    let selectedProblemId = null;
+
+    // Language display names mapping
+    const languageDisplayNames = {
+        'c': 'C',
+        'python': 'Python', 
+        'java': 'Java',
+        'cpp': 'C++',
+        'javascript': 'JavaScript'
+    };
+
+    // Render problems based on current filters and page
+    const renderProblems = () => {
+        const container = document.getElementById('problems-container');
+        const paginationContainer = document.getElementById('pagination-container');
+        
+        // Filter problems
+        let filteredProblems = problemsData.filter(problem => {
+            // Language filter
+            if (currentFilters.language !== 'all' && problem.language !== currentFilters.language) {
+                return false;
+            }
+            
+            // Difficulty filter
+            if (currentFilters.difficulty !== 'all' && problem.difficulty !== currentFilters.difficulty) {
+                return false;
+            }
+            
+            // Status filter - check user progress from localStorage
+            const userProgress = JSON.parse(localStorage.getItem('csStudioUserProgress')) || {};
+            const problemStatus = userProgress[problem.id] || 'todo';
+            
+            if (currentFilters.status !== 'all' && problemStatus !== currentFilters.status) {
+                return false;
+            }
+            
+            // Search filter
+            if (currentFilters.search && !problem.title.toLowerCase().includes(currentFilters.search.toLowerCase())) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Sort problems (always ascending by ID as requested)
+        filteredProblems.sort((a, b) => a.id - b.id);
+        
+        // Calculate pagination
+        const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
+        const startIndex = (currentPage - 1) * problemsPerPage;
+        const endIndex = startIndex + problemsPerPage;
+        const paginatedProblems = filteredProblems.slice(startIndex, endIndex);
+        
+        // Clear container
+        container.innerHTML = '';
+        
+        // Render problems
+        if (paginatedProblems.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900">No problems found</h3>
+                    <p class="text-gray-500 mt-2">Try adjusting your filters or search term.</p>
+                </div>
+            `;
+        } else {
+            // Get user progress from localStorage
+            const userProgress = JSON.parse(localStorage.getItem('csStudioUserProgress')) || {};
+            
+            paginatedProblems.forEach(problem => {
+                const problemStatus = userProgress[problem.id] || 'todo';
+                
+                const problemCard = document.createElement('div');
+                problemCard.className = 'problem-card bg-white rounded-lg shadow-md p-6';
+                problemCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${problem.id}. ${problem.title}</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="difficulty-${problem.difficulty} px-2 py-1 rounded-full text-xs font-medium mr-2">
+                                    ${problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
+                                </span>
+                                <span class="text-sm text-gray-500">${problem.acceptance} Acceptance</span>
+                            </div>
+                        </div>
+                        ${problemStatus === 'solved' ? 
+                            '<div class="solved-badge px-2 py-1 rounded-full text-xs font-medium flex items-center"><i class="fas fa-check mr-1"></i> Solved</div>' : 
+                            problemStatus === 'attempted' ? 
+                            '<div class="attempted-badge px-2 py-1 rounded-full text-xs font-medium flex items-center"><i class="fas fa-clock mr-1"></i> Attempted</div>' : 
+                            '<div class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium flex items-center"><i class="fas fa-circle mr-1"></i> To Do</div>'
+                        }
+                    </div>
+                    <p class="text-gray-600 line-clamp-2 mb-4">${problem.description}</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${problem.topics.slice(0, 5).map(topic => 
+                            `<span class="tag bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs">${topic}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex flex-wrap gap-1">
+                            ${problem.availableLanguages.map(lang => 
+                                `<span class="language-tag px-2 py-1 rounded-md text-xs font-medium">${languageDisplayNames[lang]}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="solve-btn bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300" data-id="${problem.id}">
+                        ${problemStatus === 'solved' ? 'Solve Again' : 'Solve'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(problemCard);
+            });
+            
+            // Add event listeners to solve buttons after rendering
+            document.querySelectorAll('.solve-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const problemId = this.getAttribute('data-id');
+                    const problem = problemsData.find(p => p.id === parseInt(problemId));
+                    if (problem) {
+                        // Update problem status to "todo" when solving
+                        const userProgress = JSON.parse(localStorage.getItem('csStudioUserProgress')) || {};
+                        userProgress[problemId] = 'todo';
+                        localStorage.setItem('csStudioUserProgress', JSON.stringify(userProgress));
+                        
+                        // 🟢 FIX 1: Store the current page number before navigating away
+                        localStorage.setItem('lastViewedPage', currentPage);
+
+                        // Store problem in localStorage
+                        localStorage.setItem('currentProblem', JSON.stringify(problem));
+                        localStorage.setItem('lastViewedProblem', problemId); // Keep this to ensure highlighting works
+                        // Redirect to solve page with problem ID
+                        window.location.href = `solvePages/solve-${problemId}.html`;
+                    }
+                });
+            });
+        }
+        
+        // Render pagination with proper page numbers
+        const renderPagination = (container, totalPages) => {
+            container.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            const createPageButton = (page, text, isActive = false, isDisabled = false) => {
+                const button = document.createElement('button');
+                button.className = `px-3 py-2 rounded-md border text-sm font-medium ${
+                    isActive 
+                        ? 'pagination-active' 
+                        : isDisabled 
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                            : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-300'
+                }`;
+                button.innerHTML = text;
+                button.disabled = isDisabled;
+                
+                if (!isDisabled && page !== '...') {
+                    button.addEventListener('click', () => {
+                        currentPage = page;
+                        renderProblems();
+                        // Scroll to top of problems container
+                        document.getElementById('problems-container').scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+                
+                return button;
+            };
+            
+            // Previous button
+            container.appendChild(createPageButton(
+                currentPage - 1, 
+                '<i class="fas fa-chevron-left"></i>', 
+                false, 
+                currentPage === 1
+            ));
+            
+            // Always show first page
+            if (totalPages > 0) {
+                container.appendChild(createPageButton(1, '1', currentPage === 1));
+            }
+            
+            // Calculate page range to show
+            let startPage = Math.max(2, currentPage - 1);
+            let endPage = Math.min(totalPages - 1, currentPage + 1);
+            
+            // Add ellipsis after first page if needed
+            if (startPage > 2) {
+                container.appendChild(createPageButton('...', '...', false, true));
+            }
+            
+            // Add middle pages
+            for (let i = startPage; i <= endPage; i++) {
+                container.appendChild(createPageButton(i, i.toString(), currentPage === i));
+            }
+            
+            // Add ellipsis before last page if needed
+            if (endPage < totalPages - 1) {
+                container.appendChild(createPageButton('...', '...', false, true));
+            }
+            
+            // Always show last page if there is more than one page
+            if (totalPages > 1) {
+                container.appendChild(createPageButton(totalPages, totalPages.toString(), currentPage === totalPages));
+            }
+            
+            // Next button
+            container.appendChild(createPageButton(
+                currentPage + 1, 
+                '<i class="fas fa-chevron-right"></i>', 
+                false, 
+                currentPage === totalPages
+            ));
+        };
+        
+        renderPagination(paginationContainer, totalPages);
+    }
+
+    // Language select functionality
+    document.getElementById('language-select').addEventListener('change', function() {
+        currentFilters.language = this.value;
+        currentPage = 1;
+        renderProblems();
+    });
+
+    // Filter button functionality
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-filter');
+            const filterValue = this.getAttribute('data-value');
+            
+            // Update current filters
+            currentFilters[filterType] = filterValue;
+            
+            // Reset to first page when filters change
+            currentPage = 1;
+            
+            // Update active state for filter buttons
+            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
+                btn.classList.remove('filter-active');
+            });
+            this.classList.add('filter-active');
+            
+            // Re-render problems
+            renderProblems();
+        });
+    });
+
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', function() {
+        currentFilters.search = this.value;
+        currentPage = 1;
+        renderProblems();
+    });
+
+    // Reset filters
+    document.getElementById('reset-filters').addEventListener('click', function() {
+        currentFilters = {
+            difficulty: 'all',
+            status: 'all',
+            topic: 'all',
+            language: 'all',
+            search: '',
+            sort: 'id-asc'
+        };
+        
+        // Reset UI elements
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('filter-active');
+        });
+        document.querySelector('[data-filter="status"][data-value="all"]').classList.add('filter-active');
+        document.getElementById('language-select').value = 'all';
+        document.getElementById('search-input').value = '';
+        
+        currentPage = 1;
+        renderProblems();
+    });
+
+    // Initial render and highlight functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for problemId in localStorage
+        const problemId = localStorage.getItem('lastViewedProblem');
+
+        // 🟢 FIX 2: Check for and restore the last viewed page from localStorage
+        const storedPage = localStorage.getItem('lastViewedPage');
+        if (storedPage) {
+            currentPage = parseInt(storedPage);
+            localStorage.removeItem('lastViewedPage'); // Remove it so it doesn't affect future normal loads
+        }
+        
+        // Clear the stored problem ID after use
+        if (problemId) {
+            localStorage.removeItem('lastViewedProblem');
+        }
+        
+        // Initial render
+        renderProblems();
+        
+        // Wait for problems to render, then highlight
+        if (problemId) {
+            setTimeout(() => {
+                highlightProblem(problemId);
+            }, 500);
+            
+            // Also try after a longer delay in case rendering takes more time
+            setTimeout(() => {
+                highlightProblem(problemId);
+            }, 1500);
+        }
+    });
+</script>
+</body>
+</html>

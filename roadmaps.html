@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Roadmaps - CS Studio</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #22c55e;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+        
+        .roadmap-step {
+            position: relative;
+        }
+        
+        .roadmap-step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 24px;
+            height: 40px;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        
+        .roadmap-step.completed:not(:last-child):after {
+            background-color: #22c55e;
+        }
+        
+        .roadmap-step.current:not(:last-child):after {
+            background: linear-gradient(to bottom, #22c55e 50%, #e5e7eb 50%);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.5s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <div class="h-8 w-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-md flex items-center justify-center shadow-md">
+                                <i data-feather="code" class="text-white"></i>
+                            </div>
+                            <span class="ml-2 text-xl font-bold text-gray-900">CS Studio</span>
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-8 sm:flex sm:space-x-6">
+                        <a href="index.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Home
+                        </a>
+                        <a href="courses.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Courses
+                        </a>
+                        <a href="roadmaps.html" class="nav-link active-nav text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Roadmap
+                        </a>
+                        <a href="code.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Code Editor
+                        </a>
+                        <a href="problems.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Problems
+                        </a>
+                        <a href="leaderboard.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Leaderboard
+                        </a>
+                        <a href="community.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Community
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center shadow-md transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user mr-2 w-4 h-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Sign In
+                    </a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="courses.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Courses</a>
+                <a href="roadmaps.html" class="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Roadmap</a>
+                <a href="code.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Code Editor</a>
+                <a href="problems.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Problems</a>
+                <a href="leaderboard.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Leaderboard</a>
+                <a href="community.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">ommunity</a>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <div class="flex items-center px-4">
+                        <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center w-full justify-center shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user mr-2 w-4 h-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Roadmaps Header -->
+    <div class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    Learning Roadmaps
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-300">
+                    Follow structured learning paths to master computer science concepts step by step
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Roadmaps Navigation -->
+    <div class="bg-white py-8 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto space-x-1 pb-2">
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
+                    All Roadmaps
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    Programming
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#full-stack-roadmap">
+                        Web Development
+                    </a>
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#data-science-roadmap">
+                    Data Science
+                    </a>
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#mobile-roadmap">
+                    Mobile Development
+                    </a>
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#ai-ml-roadmap">
+                    AI/ML
+                    </a>
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#cybersecurity-roadmap">
+                    Cybersecurity
+                    </a>
+                </button>
+                <button class="roadmap-category flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                    <a href="#devops-roadmap">
+                    DevOps
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Roadmaps -->
+    <div class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-base text-primary-500 font-semibold tracking-wide uppercase">Featured</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Popular Learning Paths
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Start with these comprehensive roadmaps designed by industry experts
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Full Stack Web Development Roadmap -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100">
+                    <div class="bg-gradient-to-r from-blue-900 to-blue-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="layers" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Full Stack Development</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Full Stack Web Developer</h3>
+                        <p class="text-gray-600 mb-4">
+                            Master both frontend and backend technologies to build complete web applications
+                        </p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <div class="flex items-center">
+                                <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                <span>6-9 months</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="book-open" class="w-4 h-4 mr-1"></i>
+                                <span>12 courses</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm font-medium text-gray-700 mb-1">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <a href="#full-stack-roadmap" class="block w-full text-center bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white py-2 px-4 rounded-lg transition duration-300">
+                            View Roadmap
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Data Science Roadmap -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100">
+                    <div class="bg-gradient-to-r from-purple-900 to-purple-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="database" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Data Science</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-purple-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Data Scientist</h3>
+                        <p class="text-gray-600 mb-4">
+                            Learn to extract insights from data using statistics, machine learning, and visualization
+                        </p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <div class="flex items-center">
+                                <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                <span>8-12 months</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="book-open" class="w-4 h-4 mr-1"></i>
+                                <span>10 courses</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm font-medium text-gray-700 mb-1">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <a href="#data-science-roadmap" class="block w-full text-center bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white py-2 px-4 rounded-lg transition duration-300">
+                            View Roadmap
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Development Roadmap -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100">
+                    <div class="bg-gradient-to-r from-yellow-900 to-yellow-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="smartphone" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Mobile Development</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-yellow-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Mobile App Developer</h3>
+                        <p class="text-gray-600 mb-4">
+                            Build native and cross-platform mobile applications for iOS and Android
+                        </p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <div class="flex items-center">
+                                <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                <span>6-9 months</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-feather="book-open" class="w-4 h-4 mr-1"></i>
+                                <span>8 courses</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm font-medium text-gray-700 mb-1">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-primary-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <a href="#mobile-roadmap" class="block w-full text-center bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white py-2 px-4 rounded-lg transition duration-300">
+                            View Roadmap
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Roadmaps -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <!-- Programming Roadmap -->
+            <div id="programming-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Programming Fundamentals Roadmap</h2>
+                        <p class="mt-2 text-gray-600">Master the core programming concepts and problem-solving skills</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">8</div>
+                            <div class="text-sm text-gray-500">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">3-6</div>
+                            <div class="text-sm text-gray-500">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">88%</div>
+                            <div class="text-sm text-gray-500">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-primary-100 text-primary-800 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step completed">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                                        <i data-feather="check" class="text-white w-5 h-5"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Programming Basics</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Variables, data types, and basic syntax</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step completed">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                                        <i data-feather="check" class="text-white w-5 h-5"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Control Structures</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Loops, conditionals, and program flow</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step current">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-100 border-2 border-primary-500 rounded-full flex items-center justify-center">
+                                        <span class="text-primary-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Functions & Methods</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Code organization and reusability</p>
+                                        <button class="mt-2 text-sm text-primary-600 hover:text-primary-500 font-medium">Continue →</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Programming -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Core Programming
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Data Structures</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Arrays, lists, stacks, and queues</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Algorithms</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Sorting, searching, and complexity analysis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Object-Oriented Programming</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Classes, objects, inheritance, and polymorphism</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Concepts -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Advanced Concepts
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Problem Solving</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Algorithm design and optimization</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Software Design</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Design patterns and architecture</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Debugging & Testing</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Code quality and maintenance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to master programming?</h3>
+                            <p class="text-gray-600 mt-1">Begin with programming basics and build strong foundations</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start Programming
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Full Stack Web Development Roadmap -->
+            <div id="full-stack-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Full Stack Web Developer Roadmap</h2>
+                        <p class="mt-2 text-gray-600">Complete path to becoming a full-stack web developer</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">12</div>
+                            <div class="text-sm text-gray-500">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">6-9</div>
+                            <div class="text-sm text-gray-500">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">85%</div>
+                            <div class="text-sm text-gray-500">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-primary-100 text-primary-800 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step completed">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                                        <i data-feather="check" class="text-white w-5 h-5"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">HTML & CSS Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Learn to structure and style web pages</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step completed">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                                        <i data-feather="check" class="text-white w-5 h-5"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">JavaScript Basics</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Master the fundamentals of JavaScript</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step current">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-primary-100 border-2 border-primary-500 rounded-full flex items-center justify-center">
+                                        <span class="text-primary-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Git & GitHub</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Version control and collaboration</p>
+                                        <button class="mt-2 text-sm text-primary-600 hover:text-primary-500 font-medium">Continue →</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Frontend Development -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Frontend Development
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Advanced JavaScript</h4>
+                                        <p class="text-sm text-gray-500 mt-1">ES6+, async programming, modules</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">React Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Components, state, and props</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Advanced React</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Hooks, context, and performance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend Development -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Backend Development
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Node.js & Express</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Server-side JavaScript</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Databases & APIs</h4>
+                                        <p class="text-sm text-gray-500 mt-1">MongoDB, RESTful APIs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Authentication & Security</h4>
+                                        <p class="text-sm text-gray-500 mt-1">JWT, OAuth, security best practices</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to start this roadmap?</h3>
+                            <p class="text-gray-600 mt-1">Begin with the first course in the foundation stage</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start Learning 
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Science Roadmap -->
+            <div id="data-science-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Data Scientist Roadmap</h2>
+                        <p class="mt-2 text-gray-600">Master data analysis, visualization, and machine learning</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">10</div>
+                            <div class="text-sm text-gray-500">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">8-12</div>
+                            <div class="text-sm text-gray-500">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">78%</div>
+                            <div class="text-sm text-gray-500">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">1</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Python for Data Science</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Python fundamentals and data structures</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">2</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Statistics & Probability</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Essential statistical concepts</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">SQL & Databases</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Data querying and management</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Analysis -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Data Analysis
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Data Analysis with Pandas</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Data manipulation and analysis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Data Visualization</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Matplotlib, Seaborn, Plotly</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Exploratory Data Analysis</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Pattern discovery and insights</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Machine Learning -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Machine Learning
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Machine Learning Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Supervised and unsupervised learning</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Advanced ML Algorithms</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Ensemble methods and neural networks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">ML Project & Deployment</h4>
+                                        <p class="text-sm text-gray-500 mt-1">End-to-end machine learning projects</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to start this roadmap?</h3>
+                            <p class="text-gray-600 mt-1">Begin with Python for Data Science</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start Learning 
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Development Roadmap -->
+    <div id="mobile-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Mobile App Developer Roadmap</h2>
+                        <p class="mt-2 text-gray-600">Master native and cross-platform mobile development for iOS and Android</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">10</div>
+                            <div class="text-sm text-gray-500">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">6-9</div>
+                            <div class="text-sm text-gray-500">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">76%</div>
+                            <div class="text-sm text-gray-500">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">1</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Programming Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">JavaScript/TypeScript or Swift/Kotlin basics</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">2</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Mobile UI/UX Principles</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Design patterns and user experience</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Version Control (Git)</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Collaborative development workflows</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platform Specialization -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Platform Specialization
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">iOS Development with Swift</h4>
+                                        <p class="text-sm text-gray-500 mt-1">SwiftUI, UIKit, and iOS frameworks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Android Development with Kotlin</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Jetpack Compose, Material Design</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Cross-Platform Development</h4>
+                                        <p class="text-sm text-gray-500 mt-1">React Native or Flutter fundamentals</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Mobile -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Advanced Mobile
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Mobile APIs & Backend Integration</h4>
+                                        <p class="text-sm text-gray-500 mt-1">REST APIs, GraphQL, and data persistence</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">App Store Deployment</h4>
+                                        <p class="text-sm text-gray-500 mt-1">App Store Connect & Google Play Console</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Performance Optimization</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Memory management and battery optimization</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform Comparison -->
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Choose Your Platform Path</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- iOS Path -->
+                        <div class="bg-blue-50 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="apple" class="text-blue-600"></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900">iOS Developer</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">Swift & SwiftUI</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">UIKit Framework</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">Core Data</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">App Store Deployment</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start iOS Path
+                            </button>
+                        </div>
+
+                        <!-- Android Path -->
+                        <div class="bg-green-50 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="smartphone" class="text-green-600 "></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900">Android Developer</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700">Kotlin & Java</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700">Jetpack Compose</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700">Material Design</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700">Google Play Deployment</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start Android Path
+                            </button>
+                        </div>
+
+                        <!-- Cross-Platform Path -->
+                        <div class="bg-purple-50 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="layers" class="text-purple-600"></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900">Cross-Platform</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">React Native</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Flutter & Dart</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Single Codebase</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-purple-500 mr-2"></i>
+                                    <span class="text-gray-700">Multi-Platform Deployment</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start Cross-Platform
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200 ">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to build mobile apps?</h3>
+                            <p class="text-gray-600 mt-1">Start with programming fundamentals and choose your platform path</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start Mobile Development 
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- AI/ML Roadmap -->
+            <div id="ai-ml-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 ">AI & Machine Learning Engineer Roadmap</h2>
+                        <p class="mt-2 text-gray-600 ">Master artificial intelligence, deep learning, and ML deployment</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">14</div>
+                            <div class="text-sm text-gray-500 ">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">9-15</div>
+                            <div class="text-sm text-gray-500 ">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">72%</div>
+                            <div class="text-sm text-gray-500 ">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">1</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Python for AI/ML</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Advanced Python and scientific computing</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">2</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Mathematics for ML</h4>
+                                        <p class="text-sm text-gray-500mt-1">Linear algebra, calculus, and statistics</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Data Preprocessing</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Data cleaning and feature engineering</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core ML -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Core ML
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Supervised Learning</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Regression, classification algorithms</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Unsupervised Learning</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Clustering and dimensionality reduction</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Model Evaluation</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Cross-validation and metrics</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced AI -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Advanced AI
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Deep Learning Fundamentals</h4>
+                                        <p class="text-sm text-gray-500mt-1">Neural networks and backpropagation</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Computer Vision</h4>
+                                        <p class="text-sm text-gray-500mt-1">CNNs and image processing</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Natural Language Processing</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Transformers and language models</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specializations -->
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-primary-50 rounded-xl p-6">
+                        <h4 class="font-semibold text-gray-900mb-3">Specialization Tracks</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center text-sm">
+                                <i data-feather="chevron-right" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700">Computer Vision Engineer</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i data-feather="chevron-right" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700">NLP Specialist</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i data-feather="chevron-right" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700">MLOps Engineer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-primary-50 rounded-xl p-6">
+                        <h4 class="font-semibold text-gray-900mb-3">Tools & Technologies</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">TensorFlow</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">PyTorch</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Scikit-learn</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Keras</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200 ">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to master AI/ML?</h3>
+                            <p class="text-gray-600 mt-1">Begin with Python for AI/ML and mathematics foundations</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start AI/ML 
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cybersecurity Roadmap -->
+            <div id="cybersecurity-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">Cybersecurity Engineer Roadmap</h2>
+                        <p class="mt-2 text-gray-600 ">Master network security, ethical hacking, and defense strategies</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">11</div>
+                            <div class="text-sm text-gray-500">Courses</div>
+                        </div>
+                                                <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">8-12</div>
+                            <div class="text-sm text-gray-500">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">81%</div>
+                            <div class="text-sm text-gray-500 ">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">1</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Networking Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">TCP/IP, DNS, HTTP protocols</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">2</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Operating Systems Security</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Windows & Linux security basics</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Security Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">CIA triad, risk management</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Security -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Core Security
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Network Security</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Firewalls, IDS/IPS, VPNs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Web Application Security</h4>
+                                        <p class="text-sm text-gray-500 mt-1">OWASP Top 10, secure coding</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Cryptography</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Encryption, hashing, PKI</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Security -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Advanced Security
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Ethical Hacking</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Penetration testing methodologies</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Incident Response</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Digital forensics and analysis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900">Security Operations</h4>
+                                        <p class="text-sm text-gray-500 mt-1">SIEM, threat hunting, SOC</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Ready to start your cybersecurity journey?</h3>
+                            <p class="text-gray-600 mt-1">Begin with networking fundamentals and security basics</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start Cybersecurity
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- DevOps Roadmap -->
+            <div id="devops-roadmap" class="bg-white rounded-2xl shadow-lg p-8 mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">DevOps Engineer Roadmap</h2>
+                        <p class="mt-2 text-gray-600">Master CI/CD, infrastructure as code, cloud platforms, and automation</p>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">11</div>
+                            <div class="text-sm text-gray-500 ">Courses</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">6-9</div>
+                            <div class="text-sm text-gray-500 ">Months</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600">82%</div>
+                            <div class="text-sm text-gray-500 ">Completion Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Foundation -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">1</span>
+                            Foundation
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">1</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Linux Fundamentals</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Command line, file systems, and scripting</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">2</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Networking Concepts</h4>
+                                        <p class="text-sm text-gray-500  mt-1">TCP/IP, DNS, HTTP, load balancing</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">3</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Scripting & Automation</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Bash, Python for automation tasks</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core DevOps -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">2</span>
+                            Core DevOps
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200  rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">4</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Containerization</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Docker fundamentals and best practices</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">5</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">CI/CD Pipelines</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Jenkins, GitLab CI, GitHub Actions</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">6</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Infrastructure as Code</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Terraform, CloudFormation, Ansible</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & Monitoring -->
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                            <span class="w-8 h-8 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mr-3">3</span>
+                            Cloud & Monitoring
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">7</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Cloud Platforms</h4>
+                                        <p class="text-sm text-gray-500 mt-1">AWS, Azure, or GCP fundamentals</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">8</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Container Orchestration</h4>
+                                        <p class="text-sm text-gray-500  mt-1">Kubernetes and container management</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="roadmap-step">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <span class="text-gray-500 font-medium">9</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-gray-900 ">Monitoring & Logging</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Prometheus, Grafana, ELK Stack</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Platform Comparison -->
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Choose Your Cloud Platform</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- AWS Path -->
+                        <div class="bg-orange-50 light:bg-orange-900 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-orange-100 light:bg-orange-800 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="cloud" class="text-orange-600 dark:text-orange-400"></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900 dark:text-black">AWS Specialist</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-orange-500 mr-2"></i>
+                                    <span class="text-gray-700 ">EC2, S3, Lambda</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-orange-500 mr-2"></i>
+                                    <span class="text-gray-700 ">RDS & DynamoDB</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-orange-500 mr-2"></i>
+                                    <span class="text-gray-700 ">VPC & IAM</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-orange-500 mr-2"></i>
+                                    <span class="text-gray-700 ">CloudFormation</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start AWS Path
+                            </button>
+                        </div>
+
+                        <!-- Azure Path -->
+                        <div class="bg-blue-50 light:bg-blue-900 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-blue-100 light:bg-blue-800 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="cloud" class="text-blue-600 dark:text-blue-400"></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900 dark:text-black">Azure Specialist</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700 ">Virtual Machines</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">Azure Kubernetes Service</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">Azure DevOps</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-blue-500 mr-2"></i>
+                                    <span class="text-gray-700">ARM Templates</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start Azure Path
+                            </button>
+                        </div>
+
+                        <!-- GCP Path -->
+                        <div class="bg-green-50 light:bg-green-900 rounded-xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-green-100 light:bg-green-800 rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="cloud" class="text-green-600 dark:text-green-400"></i>
+                                </div>
+                                <h5 class="font-semibold text-gray-900">GCP Specialist</h5>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700 ">Compute Engine</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700 ">Google Kubernetes Engine</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700 ">Cloud Functions</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="check" class="w-4 h-4 text-green-500 mr-2"></i>
+                                    <span class="text-gray-700 ">Deployment Manager</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-300">
+                                Start GCP Path
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DevOps Tools -->
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-primary-50 light:bg-green-900 rounded-xl p-6">
+                        <h4 class="font-semibold text-gray-900 mb-3">Essential DevOps Tools</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Docker</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Kubernetes</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Jenkins</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Terraform</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Ansible</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Prometheus</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">Grafana</span>
+                            <span class="px-2 py-1 bg-white rounded text-xs font-medium">GitLab CI</span>
+                        </div>
+                    </div>
+                    <div class="bg-primary-50 light:bg-green-900 rounded-xl p-6">
+                        <h4 class="font-semibold text-gray-900 mb-3">Certification Paths</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center text-sm">
+                                <i data-feather="award" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700 ">AWS Certified DevOps Engineer</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i data-feather="award" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700 ">Azure DevOps Engineer Expert</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <i data-feather="award" class="w-4 h-4 text-primary-500 mr-2"></i>
+                                <span class="text-gray-700 ">CKA: Certified Kubernetes Administrator</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200 ">
+                    <div class="flex flex-col sm:flex-row justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 ">Ready to master DevOps?</h3>
+                            <p class="text-gray-600  mt-1">Begin with Linux fundamentals and scripting basics</p>
+                        </div>
+                        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                            Start DevOps 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-primary-500 to-primary-600">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                    Ready to start your learning journey?
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-primary-100">
+                    Choose a roadmap and start building your skills with our structured learning paths.
+                </p>
+                <div class="mt-8">
+                    <a href="signup.html" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50 transition-all duration-300 shadow-lg">
+                        Get Started for Free
+                        <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Learn</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="courses.html" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Courses</a>
+                        </li>
+                        <li>
+                            <a href="roadmaps.html" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Roadmaps</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Practice</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Problems</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Challenges</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Community</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Forums</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Leaderboard</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">About</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+                <div class="flex space-x-6 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="twitter" class="h-6 w-6"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="github" class="h-6 w-6"></i>
+                    </a>
+                </div>
+                <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+                    &copy; 2025 CS Studio. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Roadmap category filtering
+        document.querySelectorAll('.roadmap-category').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.roadmap-category').forEach(btn => {
+                    btn.classList.remove('bg-primary-100', 'text-primary-800');
+                    btn.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:bg-gray-100');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('bg-primary-100', 'text-primary-800');
+                this.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:bg-gray-100');
+                
+                // In a real application, you would filter the roadmaps here
+                console.log('Filtering by:', this.textContent);
+            });
+        });
+
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
+</body>
+</html>

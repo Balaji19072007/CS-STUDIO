@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - CS Studio</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #22c55e;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 15px); }
+            100% { transform: translate(0, -0px); }
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+        
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+        }
+        
+        .discussion-card {
+            transition: all 0.2s ease;
+        }
+        
+        .discussion-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #f1f5f9;
+            color: #475569;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <div class="h-8 w-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-md flex items-center justify-center shadow-md">
+                                <i data-feather="code" class="text-white"></i>
+                            </div>
+                            <span class="ml-2 text-xl font-bold text-gray-900">CS Studio</span>
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-8 sm:flex sm:space-x-6">
+                        <a href="index.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Home
+                        </a>
+                        <a href="courses.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Courses
+                        </a>
+                        <a href="roadmaps.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Roadmap
+                        </a>
+                        <a href="code.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Code Editor
+                        </a>
+                        <a href="problems.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Problems
+                        </a>
+                        <a href="leaderboard.html" class="nav-link text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Leaderboard
+                        </a>
+                        <a href="community.html" class="nav-link active-nav text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            Community
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center shadow-md transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user mr-2 w-4 h-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Sign In
+                    </a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="index.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="courses.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Courses</a>
+                <a href="roadmaps.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Roadmap</a>
+                <a href="code.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Code Editor</a>
+                <a href="problems.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Problems</a>
+                <a href="leaderboard.html" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Leaderboard</a>
+                <a href="community.html" class="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Community</a>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <div class="flex items-center px-4">
+                        <a href="signin.html" class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center w-full justify-center shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user mr-2 w-4 h-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+                <h1 class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
+                    <span class="block">CS Studio</span>
+                    <span class="block text-primary-400">Community</span>
+                </h1>
+                <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                    Connect with fellow learners, share knowledge, and grow together. Get help, give help, and build your network.
+                </p>
+                <div class="mt-8 max-w-lg mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#discussions" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 shadow-lg md:py-4 md:text-lg md:px-10 transition-all duration-300">
+                            Join Discussions
+                        </a>
+                        <a href="#events" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-500 bg-white hover:bg-gray-50 shadow-lg md:py-4 md:text-lg md:px-10 transition-all duration-300">
+                            View Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </div>
+
+    <!-- Community Stats -->
+    <div class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">15K+</div>
+                    <div class="text-sm text-gray-500 mt-1">Community Members</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">5K+</div>
+                    <div class="text-sm text-gray-500 mt-1">Discussions</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">200+</div>
+                    <div class="text-sm text-gray-500 mt-1">Events Hosted</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-900">95%</div>
+                    <div class="text-sm text-gray-500 mt-1">Questions Answered</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Features -->
+    <div class="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-primary-500 font-semibold tracking-wide uppercase">Community Features</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Connect, Learn, and Grow Together
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Our community offers multiple ways to connect with fellow learners and experts.
+                </p>
+            </div>
+
+            <div class="mt-16">
+                <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="message-circle"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Discussion Forums</h3>
+                        <p class="mt-2 text-gray-500">
+                            Ask questions, share knowledge, and discuss coding concepts with learners and mentors.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="calendar"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Community Events</h3>
+                        <p class="mt-2 text-gray-500">
+                            Join coding challenges, webinars, and study groups to enhance your learning experience.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="users"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Study Groups</h3>
+                        <p class="mt-2 text-gray-500">
+                            Form or join study groups to learn together and stay motivated throughout your journey.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="award"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Mentorship Program</h3>
+                        <p class="mt-2 text-gray-500">
+                            Get guidance from experienced developers or become a mentor to help others.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="code"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Code Review</h3>
+                        <p class="mt-2 text-gray-500">
+                            Submit your code for review and get constructive feedback from the community.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                        <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-400 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <i data-feather="trending-up"></i>
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">Project Collaboration</h3>
+                        <p class="mt-2 text-gray-500">
+                            Find teammates for open-source projects or build something amazing together.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discussions Section -->
+    <div id="discussions" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-base text-primary-500 font-semibold tracking-wide uppercase">Latest Discussions</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Join the Conversation
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Ask questions, share insights, and help fellow learners in our community forums.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-2/3">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="text-lg font-medium text-gray-900">Recent Discussions</h3>
+                            <button class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300">
+                                Start New Discussion
+                            </button>
+                        </div>
+                        <div class="divide-y divide-gray-200">
+                            <!-- Discussion 1 -->
+                            <div class="p-6 discussion-card hover:bg-gray-50 cursor-pointer">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 relative">
+                                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-sm font-semibold text-gray-900">How to optimize recursive algorithms?</h4>
+                                            <span class="text-xs text-gray-500">2 hours ago</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">I'm working on a problem that requires recursion but my solution is too slow for large inputs. Any tips for optimization?</p>
+                                        <div class="mt-2 flex flex-wrap">
+                                            <span class="tag">Algorithms</span>
+                                            <span class="tag">Recursion</span>
+                                            <span class="tag">Optimization</span>
+                                        </div>
+                                        <div class="mt-3 flex items-center text-sm text-gray-500">
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="message-circle" class="h-4 w-4 mr-1"></i>
+                                                <span>12</span>
+                                            </div>
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="eye" class="h-4 w-4 mr-1"></i>
+                                                <span>45</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i data-feather="heart" class="h-4 w-4 mr-1"></i>
+                                                <span>8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Discussion 2 -->
+                            <div class="p-6 discussion-card hover:bg-gray-50 cursor-pointer">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 relative">
+                                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-sm font-semibold text-gray-900">Best resources for learning React hooks?</h4>
+                                            <span class="text-xs text-gray-500">5 hours ago</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">I'm transitioning from class components to functional components with hooks. Any recommendations for tutorials or courses?</p>
+                                        <div class="mt-2 flex flex-wrap">
+                                            <span class="tag">React</span>
+                                            <span class="tag">JavaScript</span>
+                                            <span class="tag">Frontend</span>
+                                        </div>
+                                        <div class="mt-3 flex items-center text-sm text-gray-500">
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="message-circle" class="h-4 w-4 mr-1"></i>
+                                                <span>23</span>
+                                            </div>
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="eye" class="h-4 w-4 mr-1"></i>
+                                                <span>67</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i data-feather="heart" class="h-4 w-4 mr-1"></i>
+                                                <span>15</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Discussion 3 -->
+                            <div class="p-6 discussion-card hover:bg-gray-50 cursor-pointer">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-sm font-semibold text-gray-900">Database design tips for e-commerce applications</h4>
+                                            <span class="text-xs text-gray-500">1 day ago</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">I'm building an e-commerce platform and need advice on designing the database schema for products, users, and orders.</p>
+                                        <div class="mt-2 flex flex-wrap">
+                                            <span class="tag">Database</span>
+                                            <span class="tag">SQL</span>
+                                            <span class="tag">Backend</span>
+                                        </div>
+                                        <div class="mt-3 flex items-center text-sm text-gray-500">
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="message-circle" class="h-4 w-4 mr-1"></i>
+                                                <span>18</span>
+                                            </div>
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="eye" class="h-4 w-4 mr-1"></i>
+                                                <span>89</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i data-feather="heart" class="h-4 w-4 mr-1"></i>
+                                                <span>11</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Discussion 4 -->
+                            <div class="p-6 discussion-card hover:bg-gray-50 cursor-pointer">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 relative">
+                                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-sm font-semibold text-gray-900">Career advice for junior developers</h4>
+                                            <span class="text-xs text-gray-500">2 days ago</span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-600">I just graduated and started applying for jobs. What should I focus on to stand out as a junior developer?</p>
+                                        <div class="mt-2 flex flex-wrap">
+                                            <span class="tag">Career</span>
+                                            <span class="tag">Interview</span>
+                                            <span class="tag">Advice</span>
+                                        </div>
+                                        <div class="mt-3 flex items-center text-sm text-gray-500">
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="message-circle" class="h-4 w-4 mr-1"></i>
+                                                <span>34</span>
+                                            </div>
+                                            <div class="flex items-center mr-4">
+                                                <i data-feather="eye" class="h-4 w-4 mr-1"></i>
+                                                <span>112</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i data-feather="heart" class="h-4 w-4 mr-1"></i>
+                                                <span>22</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 border-t border-gray-200 text-center">
+                            <a href="#" class="text-primary-600 hover:text-primary-700 font-medium">View all discussions</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-1/3">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Popular Tags</h3>
+                        <div class="flex flex-wrap">
+                            <span class="tag bg-primary-100 text-primary-800">Python</span>
+                            <span class="tag bg-primary-100 text-primary-800">JavaScript</span>
+                            <span class="tag bg-primary-100 text-primary-800">React</span>
+                            <span class="tag bg-primary-100 text-primary-800">Algorithms</span>
+                            <span class="tag bg-primary-100 text-primary-800">Data Structures</span>
+                            <span class="tag bg-primary-100 text-primary-800">SQL</span>
+                            <span class="tag bg-primary-100 text-primary-800">CSS</span>
+                            <span class="tag bg-primary-100 text-primary-800">Career</span>
+                            <span class="tag bg-primary-100 text-primary-800">Interview</span>
+                            <span class="tag bg-primary-100 text-primary-800">Debugging</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Top Contributors</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 relative">
+                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                    <div class="online-indicator"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Alex Johnson</p>
+                                    <p class="text-sm text-gray-500">1,245 answers</p>
+                                </div>
+                                <div class="ml-auto flex items-center text-yellow-500">
+                                    <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                    <span class="ml-1 text-sm font-medium">4.9</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Sarah Chen</p>
+                                    <p class="text-sm text-gray-500">987 answers</p>
+                                </div>
+                                <div class="ml-auto flex items-center text-yellow-500">
+                                    <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                    <span class="ml-1 text-sm font-medium">4.8</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 relative">
+                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                    <div class="online-indicator"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Michael Rodriguez</p>
+                                    <p class="text-sm text-gray-500">845 answers</p>
+                                </div>
+                                <div class="ml-auto flex items-center text-yellow-500">
+                                    <i data-feather="star" class="h-4 w-4 fill-current"></i>
+                                    <span class="ml-1 text-sm font-medium">4.7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events Section -->
+    <div id="events" class="py-16 bg-gradient-to-b from-white to-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-base text-primary-500 font-semibold tracking-wide uppercase">Upcoming Events</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Join Our Community Events
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Participate in coding challenges, webinars, and study groups to enhance your learning.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 card-hover">
+                    <div class="bg-gradient-to-r from-gray-900 to-gray-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="code" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Weekly Coding Challenge</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-900">Algorithm Challenge</h3>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                Weekly
+                            </span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Test your problem-solving skills with our weekly algorithm challenge. Compete with peers and improve your coding abilities.
+                        </p>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <i data-feather="calendar" class="h-4 w-4 mr-2"></i>
+                            <span>Every Monday</span>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i data-feather="clock" class="h-4 w-4 mr-2"></i>
+                            <span>24 hours</span>
+                        </div>
+                        <div class="mt-6">
+                            <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all duration-300">
+                                Participate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 card-hover">
+                    <div class="bg-gradient-to-r from-gray-900 to-gray-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="users" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Study Group</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-900">Data Structures Study Group</h3>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                Monthly
+                            </span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Join our monthly study group to master data structures. Collaborative learning with guided exercises and peer support.
+                        </p>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <i data-feather="calendar" class="h-4 w-4 mr-2"></i>
+                            <span>June 15, 2025</span>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i data-feather="clock" class="h-4 w-4 mr-2"></i>
+                            <span>2:00 PM - 4:00 PM EST</span>
+                        </div>
+                        <div class="mt-6">
+                            <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all duration-300">
+                                Join Group
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 card-hover">
+                    <div class="bg-gradient-to-r from-gray-900 to-gray-800 h-48 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-4 z-10">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <i data-feather="video" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <p class="text-white font-medium">Expert Webinar</p>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary-500 rounded-full opacity-10"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary-400 rounded-full opacity-10"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-900">Building Scalable APIs</h3>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                One-time
+                            </span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Learn best practices for designing and building scalable REST APIs from industry experts.
+                        </p>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <i data-feather="calendar" class="h-4 w-4 mr-2"></i>
+                            <span>June 22, 2025</span>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm text-gray-500">
+                            <i data-feather="clock" class="h-4 w-4 mr-2"></i>
+                            <span>6:00 PM - 7:30 PM EST</span>
+                        </div>
+                        <div class="mt-6">
+                            <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all duration-300">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 transition-all duration-300">
+                    View All Events
+                    <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Guidelines -->
+    <div class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-base text-primary-500 font-semibold tracking-wide uppercase">Community Guidelines</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Be Respectful, Be Helpful
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Our community thrives when everyone follows these simple guidelines.
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-md border border-gray-100 p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Do's</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-feather="check" class="h-5 w-5 text-primary-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Be respectful and inclusive to all members</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="h-5 w-5 text-primary-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Provide helpful and constructive feedback</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="h-5 w-5 text-primary-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Share knowledge and resources</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="h-5 w-5 text-primary-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Use appropriate language and tone</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="h-5 w-5 text-primary-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Give credit when using others' work</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Don'ts</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i data-feather="x" class="h-5 w-5 text-red-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Post spam or self-promotional content</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="x" class="h-5 w-5 text-red-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Share complete solutions to coding problems</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="x" class="h-5 w-5 text-red-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Use offensive or discriminatory language</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="x" class="h-5 w-5 text-red-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Harass or bully other members</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="x" class="h-5 w-5 text-red-500 mr-3 mt-0.5"></i>
+                                <span class="text-gray-600">Share personal information without consent</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <p class="text-sm text-gray-500">
+                        By participating in our community, you agree to follow these guidelines. Violations may result in temporary or permanent restrictions from community features.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-primary-500 to-primary-600">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        <span class="block">Ready to join our community?</span>
+                        <span class="block text-primary-100">Connect with fellow learners today.</span>
+                    </h2>
+                    <p class="mt-3 max-w-3xl text-lg text-primary-100">
+                        Join thousands of developers who are learning, sharing, and growing together.
+                    </p>
+                </div>
+                <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-md shadow">
+                        <a href="signup.html" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50 transition-all duration-300">
+                            Sign up for free
+                            <i data-feather="arrow-right" class="ml-3 -mr-1 w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Learn</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="courses.html" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Courses</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Paths</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Interactive Lessons</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Practice</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Problems</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Challenges</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Code Editor</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Community</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="community.html" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Forums</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="#events" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Events</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">About</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Careers</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white transition-colors duration-300">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+                <div class="flex space-x-6 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="twitter" class="h-6 w-6"></i>
+                    </a>
+                    <a href="https://github.com/Balaji19072007?tab=repositories" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="github" class="h-6 w-6"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/balaji-reddy-590583290/" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="linkedin" class="h-6 w-6"></i>
+                    </a>
+                    <a href="" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i data-feather="youtube" class="h-6 w-6"></i>
+                    </a>
+                </div>
+                <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+                    &copy; 2025 CS Studio. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
+</body>
+</html>
