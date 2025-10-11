@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Studio - Solve Problem</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .code-editor {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .code-block {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .test-case {
+            transition: all 0.2s ease;
+        }
+        
+        .test-case:hover {
+            background-color: #f8fafc;
+        }
+        
+        .test-case.active {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .difficulty-easy {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .difficulty-medium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .difficulty-hard {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .language-tag {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+        
+        .tab-button.active {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .hint-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .approach-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .note-box {
+            background-color: #fefce8;
+            border-left: 4px solid #eab308;
+        }
+        
+        .line-numbers {
+            font-family: 'Fira Code', monospace;
+            color: #6b7280;
+            text-align: right;
+            padding-right: 1rem;
+            user-select: none;
+            height: 400px;
+            overflow-y: hidden;
+        }
+        
+        .code-area {
+            font-family: 'Fira Code', monospace;
+            tab-size: 4;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            width: 100%;
+            height: 400px;
+            overflow-y: auto;
+        }
+        
+        .code-editor-container {
+            display: flex;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .solution-tab {
+            transition: all 0.2s ease;
+        }
+        
+        .solution-tab.active {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .success-animation {
+            animation: successPulse 2s ease-in-out;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #22c55e, #16a34a);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, #ef4444, #dc2626);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(to right, #dc2626, #b91c1c);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .output-section {
+            margin-top: 0.5rem;
+            border-top: 1px solid #374151;
+            padding-top: 0.5rem;
+        }
+        
+        .output-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            color: #60a5fa;
+            font-size: 0.8rem;
+        }
+        
+        .output-content {
+            background-color: #1f2937;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+            white-space: pre-wrap;
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        .output-success {
+            color: #34d399;
+        }
+        
+        .output-error {
+            color: #f87171;
+        }
+        
+        .code-output-section {
+            min-height: 150px;
+            max-height: 250px;
+            overflow-y: auto;
+            background-color: #1e293b;
+            color: white;
+        }
+        
+        .solution-code {
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            background: #1a202c;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #e2e8f0;
+        }
+
+        .code-line {
+            display: block;
+            min-height: 1.2em;
+        }
+
+        .solution-explanation {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .solution-step {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #f1f5f9;
+            border-radius: 4px;
+            border-left: 3px solid #22c55e;
+        }
+        
+        .solution-header {
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .language-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .problem-statement {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .problem-statement h3 {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .problem-statement ul, .problem-statement ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-statement li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-container {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1e40af;
+        }
+        
+        .example-io {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .example-box {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .example-explanation {
+            font-style: italic;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .constraints-box {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .constraints-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #92400e;
+        }
+        
+        .constraints-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .constraints-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .constraints-list li:before {
+            content: "•";
+            color: #f59e0b;
+            font-weight: bold;
+            position: absolute;
+            left: 0.5rem;
+        }
+        
+        .read-code-box {
+            background-color: #1e293b;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .read-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .read-code-title {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        
+        .read-code-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .read-code-content {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            white-space: pre;
+            overflow-x: auto;
+            padding: 0.5rem;
+            background-color: #1a202c;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .read-code-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #374151;
+        }
+        
+        .user-input-box {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            font-family: 'Fira Code', monospace;
+            border-radius: 6px;
+            padding: 1rem;
+            min-height: 150px;
+            max-height: 250px;
+            resize: none;
+            overflow-y: auto;
+            width: 100%;
+            font-size: 0.8rem;
+        }
+
+        .code-output-wrapper, .user-input-wrapper {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .code-editor-container {
+                flex-direction: column;
+            }
+            .line-numbers {
+                display: none;
+            }
+            .example-io {
+                grid-template-columns: 1fr;
+            }
+        }
+        .fixed.top-5.right-5 {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-6">
+            <button id="back-to-problems" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-300">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Problems
+            </button>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h1 id="problem-title" class="text-2xl font-bold text-gray-900">4. Factorial (Iterative)</h1>
+                        <div class="flex items-center space-x-2">
+                            <span id="problem-language" class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium language-tag">
+                                C
+                            </span>
+                            <span id="problem-difficulty" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium difficulty-easy">
+                                Easy
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                            <span id="problem-acceptance">82% Acceptance Rate</span>
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-user mr-1"></i>
+                            <span id="problem-submissions">700K Submissions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-4">
+                            <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 active" data-tab="description">
+                                Description
+                            </button>
+                            <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="solution">
+                                Solution
+                            </button>
+                            <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 hidden" data-tab="discussions">
+                                Discussions
+                            </button>
+                            <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 hidden" data-tab="complexity">
+                                Complexity
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <div id="tab-content">
+                        <div id="description-tab" class="tab-panel">
+                            <div id="problem-description" class="problem-statement text-gray-700">
+                                <h3>Problem Statement</h3>
+                                <p>Write a C program that calculates the **factorial** of a non-negative integer entered by the user. The calculation must be done **iteratively** using a loop (not recursion).</p>
+                                
+                                <h3>Input Format</h3>
+                                <p>The program should prompt the user to enter a single non-negative integer, <code>n</code>.</p>
+                                
+                                <h3>Output Format</h3>
+                                <p>The program must print the factorial of the input number in the format: <code>Factorial of [n] is [result]</code></p>
+                            </div>
+                            
+                            <div id="problem-examples">
+                                <h3 class="font-medium text-gray-900 mb-3">Examples:</h3>
+                                
+                                <div class="example-container">
+                                    <div class="example-title">Example 1 (5!)</div>
+                                    <div class="example-io">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-700 mb-1">Input</div>
+                                            <div class="example-box">Enter a non-negative integer: 5</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-700 mb-1">Output</div>
+                                            <div class="example-box">Factorial of 5 is 120</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="example-container">
+                                    <div class="example-title">Example 2 (0!)</div>
+                                    <div class="example-io">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-700 mb-1">Input</div>
+                                            <div class="example-box">Enter a non-negative integer: 0</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-700 mb-1">Output</div>
+                                            <div class="example-box">Factorial of 0 is 1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div id="problem-constraints">
+                                <div class="constraints-box">
+                                    <div class="constraints-title">Constraints:</div>
+                                    <ul class="constraints-list">
+                                        <li>The input must be a non-negative integer.</li>
+                                        <li>An iterative approach (<code>for</code> or <code>while</code> loop) is required.</li>
+                                        <li>The result variable should be a large integer type (e.g., <code>long long</code>) to handle potential overflow for inputs > 12.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div id="problem-hints" class="mt-6">
+                                <h4 class="font-medium text-gray-900 mb-2">Hints:</h4>
+                                <div id="hints-container" class="space-y-3">
+                                    <div class="hint-box p-4 rounded-md">
+                                        <div class="flex items-start">
+                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mr-3 mt-1">
+                                                1
+                                            </span>
+                                            <p class="text-gray-700">The factorial of <code>n</code> is $n \times (n-1) \times \dots \times 1$. You can use a loop that multiplies a running product variable starting from 1 up to <code>n</code>.</p>
+                                        </div>
+                                    </div>
+                                    <div class="hint-box p-4 rounded-md">
+                                        <div class="flex items-start">
+                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mr-3 mt-1">
+                                                2
+                                            </span>
+                                            <p class="text-gray-700">Remember that <code>0!</code> (zero factorial) is defined as 1. You should handle this as a special case or ensure your loop logic covers it.</p>
+                                        </div>
+                                    </div>
+                                    <div class="hint-box p-4 rounded-md">
+                                        <div class="flex items-start">
+                                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mr-3 mt-1">
+                                                3
+                                            </span>
+                                            <p class="text-gray-700">When printing the final <code>long long</code> result, use the <code>%lld</code> format specifier in <code>printf()</code>.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="solution-tab" class="tab-panel hidden">
+                            <div class="solution-header flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2">Complete Solution</h3>
+                                    <p class="opacity-90">Ready-to-use code in C</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div id="solution-language-badge" class="language-badge">
+                                        C
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="solution-container" class="p-6">
+                                <div class="solution-explanation">
+                                    <h4 class="font-bold mb-2">Explanation:</h4>
+                                    <p>The factorial of $n$ is the product of all positive integers less than or equal to $n$. We use a <code>for</code> loop that iterates from 1 up to the input number, multiplying a running result variable in each iteration. The result is initialized to 1, as $0! = 1$. Using <code>long long</code> is critical for inputs greater than 12, as the result quickly exceeds the capacity of a standard 32-bit <code>int</code>.</p>
+                                    <div class="solution-step">Declare <code>n</code> as an <code>int</code> for input and <code>factorial</code> as <code>long long</code>, initialized to 1.</div>
+                                    <div class="solution-step">Handle negative input as an error case.</div>
+                                    <div class="solution-step">Use a <code>for</code> loop starting from $i=1$ and running up to $i \le n$.</div>
+                                    <div class="solution-step">Inside the loop, update the running product: <code>factorial *= i;</code></div>
+                                    <div class="solution-step">Print the final result using the <code>%lld</code> format specifier.</div>
+                                </div>
+                                
+                                <div class="read-code-box">
+                                    <div class="read-code-header">
+                                        <div class="read-code-title">Read This Code</div>
+                                    </div>
+                                    <div class="read-code-content" id="solution-code-content">
+#include &lt;stdio.h&gt;
+
+int main() {
+    int n, i;
+    // Use long long for larger factorials (e.g., 13! > 2 billion, int limit)
+    long long factorial = 1; 
+
+    // Prompt and read the integer
+    printf("Enter a non-negative integer: ");
+    if (scanf("%d", &n) != 1) {
+        printf("Invalid input. Exiting.\n");
+        return 1;
+    }
+
+    // Handle invalid input (negative number)
+    if (n < 0) {
+        printf("Factorial is not defined for negative numbers.\n");
+        return 1;
+    }
+
+    // Calculate factorial iteratively (works for n=0 and n=1 as well)
+    for (i = 1; i <= n; i++) {
+        factorial *= i; // Same as factorial = factorial * i;
+    }
+
+    // Print the result using %lld for long long
+    printf("Factorial of %d is %lld\n", n, factorial);
+
+    return 0;
+}
+                                    </div>
+                                    <div class="read-code-footer">
+                                        <button id="load-solution" class="btn-primary inline-flex items-center px-4 py-2 rounded-md text-sm font-medium">
+                                            <i class="fas fa-download mr-2"></i> Load Solution
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="discussions-tab" class="tab-panel hidden">
+                            <div class="text-center py-8">
+                                <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
+                                <h3 class="text-lg font-medium text-gray-900">Community Discussions</h3>
+                                <p class="text-gray-500 mt-2">Join the conversation to share insights and ask questions.</p>
+                                <button class="mt-4 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium">
+                                    View Discussions
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="complexity-tab" class="tab-panel hidden">
+                            <div class="mb-6">
+                                <h3 class="text-xl font-bold text-gray-900 mb-4">Complexity Analysis</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 mb-3">Your Solution</h4>
+                                        <div id="user-complexity" class="text-sm text-gray-600 bg-gray-100 p-4 rounded-lg">
+                                            <div class="flex justify-between mb-2">
+                                                <span>Time Complexity:</span>
+                                                <span id="user-time-complexity" class="font-medium">O(n)</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span>Space Complexity:</span>
+                                                <span id="user-space-complexity" class="font-medium">O(1)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 mb-3">Optimal Solution</h4>
+                                        <div id="optimal-complexity" class="text-sm text-gray-600 bg-green-50 p-4 rounded-lg">
+                                            <div class="flex justify-between mb-2">
+                                                <span>Time Complexity:</span>
+                                                <span id="optimal-time-complexity" class="font-medium">O(n)</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span>Space Complexity:</span>
+                                                <span id="optimal-space-complexity" class="font-medium">O(1)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-3">Solution Approaches</h4>
+                                <div class="flex space-x-2 mb-4">
+                                    <div class="approach-tab active" data-approach="optimal">Optimal (Iterative)</div>
+                                    <div class="approach-tab" data-approach="alternative">Alternative (Recursive)</div>
+                                </div>
+                                <div id="approach-content" class="space-y-4">
+                                    <div class="approach-box p-4 rounded-md">
+                                        <h5 class="font-bold mb-2">Iterative Multiplication Approach</h5>
+                                        <p class="text-gray-700">The most memory-efficient approach for factorial calculation is the iterative loop, which runs in linear time $O(n)$ proportional to the input number $n$.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                    <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                        <div class="flex items-center space-x-4">
+                            <h2 class="text-lg font-semibold text-gray-900">Code Editor</h2>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-gray-800 text-white px-3 py-1 rounded text-sm border border-gray-600">
+                                    C
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button id="reset-code" class="btn-secondary inline-flex items-center px-3 py-1 rounded-md text-sm font-medium">
+                                <i class="fas fa-redo mr-1"></i> Reset
+                            </button>
+                            <button id="clear-all" class="btn-danger inline-flex items-center px-3 py-1 rounded-md text-sm font-medium">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="code-editor p-4">
+                        <div class="mb-2 flex justify-between text-xs text-gray-400">
+                            <span id="filename">factorial_iterative.c</span>
+                            <div class="flex space-x-2">
+                                <span id="auto-save-status" class="text-green-400">
+                                    <i class="fas fa-check-circle mr-1"></i>Auto-saved
+                                </span>
+                                <button id="copy-code" class="btn-secondary inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors">
+                                    <i class="far fa-copy mr-1"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-editor-container">
+                            <div id="line-numbers" class="line-numbers pr-3 border-r border-gray-700">
+                                </div>
+                            <textarea id="code-input" class="code-area text-gray-200 pl-3 text-sm leading-relaxed" spellcheck="false" placeholder="// Write your C code here...">#include <stdio.h>
+
+int main() {
+    // Write your solution here
+    
+    return 0;
+}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex justify-end space-x-4">
+                        <button id="run-code" class="btn-primary inline-flex items-center px-6 py-2 rounded-md text-base font-medium shadow-sm">
+                            <i class="fas fa-play mr-2"></i> Run Code
+                        </button>
+                        <button id="submit-code" class="btn-primary inline-flex items-center px-6 py-2 rounded-md text-base font-medium shadow-sm" style="background: linear-gradient(to right, #10b981, #059669);">
+                            <i class="fas fa-paper-plane mr-2"></i> Submit
+                        </button>
+                    </div>
+                </div>
+
+                <div id="user-input-wrapper" class="user-input-wrapper bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                    <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900">User Input</h2>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <i class="fas fa-keyboard mr-1"></i> Custom
+                        </span>
+                    </div>
+                    <div class="p-4">
+                        <textarea id="user-input-box" class="user-input-box text-gray-200" spellcheck="false" placeholder="5"></textarea>
+                        <p class="text-xs text-gray-500 mt-2">Enter the single non-negative integer for factorial calculation.</p>
+                    </div>
+                </div>
+
+                <div id="code-output-wrapper" class="code-output-wrapper bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                    <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900">Code Output</h2>
+                        <span id="code-output-status" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            <i class="fas fa-info-circle mr-1"></i> Ready
+                        </span>
+                    </div>
+                    
+                    <div class="code-output-section p-4">
+                        <div id="code-output-content" class="space-y-2">
+                            <div class="text-gray-500 text-sm">Run your code to see the output here.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="submission-results" class="bg-white rounded-lg shadow-md overflow-hidden mt-6 hidden">
+                    <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900">Submission Results</h2>
+                        <span id="submission-status" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            <i class="fas fa-check mr-1"></i> Accepted
+                        </span>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div id="results-content" class="space-y-4">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-900">Test Cases</h2>
+                        <button id="run-all-tests" class="btn-primary inline-flex items-center px-3 py-1 rounded-md text-sm font-medium">
+                            <i class="fas fa-play mr-1"></i> Run All Tests
+                        </button>
+                    </div>
+                    <div id="test-cases-container" class="space-y-4">
+                        <div class="test-case p-4 border border-gray-200 rounded-md" data-index="0">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Test Case 1</h4>
+                                    <p class="text-sm text-gray-500">Normal Factorial: 5</p>
+                                </div>
+                                <span class="test-status inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1"></i> Not Run
+                                </span>
+                            </div>
+                        </div>
+                        <div class="test-case p-4 border border-gray-200 rounded-md" data-index="1">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Test Case 2</h4>
+                                    <p class="text-sm text-gray-500">Zero Factorial: 0</p>
+                                </div>
+                                <span class="test-status inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1"></i> Not Run
+                                </span>
+                            </div>
+                        </div>
+                        <div class="test-case p-4 border border-gray-200 rounded-md" data-index="2">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Test Case 3</h4>
+                                    <p class="text-sm text-gray-500">Small Factorial: 1</p>
+                                </div>
+                                <span class="test-status inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1"></i> Not Run
+                                </span>
+                            </div>
+                        </div>
+                        <div class="test-case p-4 border border-gray-200 rounded-md" data-index="3">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Test Case 4</h4>
+                                    <p class="text-sm text-gray-500">Larger Input: 10</p>
+                                </div>
+                                <span class="test-status inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1"></i> Not Run
+                                </span>
+                            </div>
+                        </div>
+                        <div class="test-case p-4 border border-gray-200 rounded-md" data-index="4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Test Case 5</h4>
+                                    <p class="text-sm text-gray-500">Edge Case: 13 (requires long long)</p>
+                                </div>
+                                <span class="test-status inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <i class="fas fa-circle mr-1"></i> Not Run
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Get problem ID and language from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let problemId = parseInt(urlParams.get('problemId')) || 4; // Problem ID 4
+        let language = 'c'; // Fixed to C language
+        
+        // Current problem data
+        let currentProblem = {
+            id: problemId,
+            title: "Factorial (Iterative)",
+            difficulty: "easy",
+            acceptance: "82%",
+            submissions: "700K",
+            language: language,
+            topics: ["c-topics", "loops", "arithmetic", "long-long"]
+        };
+
+        // User progress and settings
+        const userData = {
+            progress: {
+                problemsSolved: 24,
+                currentStreak: 7,
+                accuracy: 85,
+                easySolved: 12,
+                mediumSolved: 8,
+                hardSolved: 4
+            },
+            settings: {
+                fontSize: 14,
+                tabSize: 4,
+                lineNumbers: true,
+                autoComplete: true,
+                autoSave: true
+            },
+            submissionHistory: [] 
+        };
+
+        // Solution code for the Factorial (Iterative) problem
+        const solutionCode = `#include <stdio.h>
+
+int main() {
+    int n, i;
+    // Use long long for larger factorials (e.g., 13! > 2 billion, int limit)
+    long long factorial = 1; 
+
+    // Prompt and read the integer
+    printf("Enter a non-negative integer: ");
+    if (scanf("%d", &n) != 1) {
+        printf("Invalid input. Exiting.\\n");
+        return 1;
+    }
+
+    // Handle invalid input (negative number)
+    if (n < 0) {
+        printf("Factorial is not defined for negative numbers.\\n");
+        return 1;
+    }
+
+    // Calculate factorial iteratively (works for n=0 and n=1 as well)
+    for (i = 1; i <= n; i++) {
+        factorial *= i; // Same as factorial = factorial * i;
+    }
+
+    // Print the result using %lld for long long
+    printf("Factorial of %d is %lld\\n", n, factorial);
+
+    return 0;
+}`;
+
+        // Template code (Kept as is)
+        const templateCode = `#include <stdio.h>
+
+int main() {
+    // Write your solution here
+    
+    return 0;
+}`;
+
+        // Load problem data (Kept as is)
+        function loadProblemData() {
+            const storedProblem = localStorage.getItem('currentProblem');
+            
+            if (storedProblem) {
+                const parsedProblem = JSON.parse(storedProblem);
+                // Only update if it's not the current problem
+                if (parsedProblem.id !== 4) {
+                    currentProblem = parsedProblem;
+                }
+            }
+            
+            updateProblemUI();
+        }
+
+        // Update UI with problem data (Kept as is, but reflects new title/ID)
+        function updateProblemUI() {
+            document.getElementById('problem-title').textContent = `${currentProblem.id}. ${currentProblem.title}`;
+            document.getElementById('problem-language').textContent = 'C';
+            document.getElementById('problem-acceptance').textContent = currentProblem.acceptance + " Acceptance Rate";
+            document.getElementById('problem-submissions').textContent = currentProblem.submissions ? currentProblem.submissions + " Submissions" : "700K Submissions";
+            
+            const difficultyElement = document.getElementById('problem-difficulty');
+            difficultyElement.textContent = currentProblem.difficulty.charAt(0).toUpperCase() + currentProblem.difficulty.slice(1);
+            difficultyElement.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium difficulty-${currentProblem.difficulty}`;
+            
+            // Update solution language badge
+            document.getElementById('solution-language-badge').textContent = 'C';
+            
+            // Set up code editor with template
+            updateCodeEditor();
+            
+            // Load user's saved code if exists
+            loadSavedCode();
+        }
+
+        // Update code editor (UPDATED filename)
+        function updateCodeEditor() {
+            const codeInput = document.getElementById('code-input');
+            
+            // Update filename
+            const filename = document.getElementById('filename');
+            filename.textContent = `factorial_iterative.c`;
+            
+            // Update line numbers
+            updateLineNumbers();
+        }
+
+        // Update line numbers based on code content (Kept as is)
+        function updateLineNumbers() {
+            const codeInput = document.getElementById('code-input');
+            const lineNumbers = document.getElementById('line-numbers');
+            
+            const lines = codeInput.value.split('\n');
+            lineNumbers.innerHTML = '';
+            
+            lines.forEach((_, index) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.textContent = index + 1;
+                lineNumbers.appendChild(lineDiv);
+            });
+        }
+
+        // Load saved code from localStorage (Kept as is)
+        function loadSavedCode() {
+            if (!userData.settings.autoSave) return;
+            
+            const key = `problem_${problemId}_code_c`;
+            const savedCode = localStorage.getItem(key);
+            
+            if (savedCode) {
+                document.getElementById('code-input').value = savedCode;
+                updateLineNumbers();
+            } else {
+                // If no saved code, use template
+                document.getElementById('code-input').value = templateCode;
+                updateLineNumbers();
+            }
+        }
+
+        // Auto-save code to localStorage (Kept as is)
+        function autoSaveCode() {
+            if (!userData.settings.autoSave) return;
+            
+            const code = document.getElementById('code-input').value;
+            const key = `problem_${problemId}_code_c`;
+            localStorage.setItem(key, code);
+            
+            // Show auto-save indicator
+            const autoSaveStatus = document.getElementById('auto-save-status');
+            autoSaveStatus.classList.remove('text-gray-400');
+            autoSaveStatus.classList.add('text-green-400');
+            
+            setTimeout(() => {
+                autoSaveStatus.classList.remove('text-green-400');
+                autoSaveStatus.classList.add('text-gray-400');
+            }, 2000);
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Tab switching 
+            document.querySelectorAll('.tab-button').forEach(button => {
+                const tabId = button.getAttribute('data-tab');
+                if (tabId === 'description' || tabId === 'solution') {
+                    button.addEventListener('click', function() {
+                        document.querySelectorAll('.tab-button').forEach(tab => {
+                            tab.classList.remove('active', 'border-primary-500', 'text-primary-600');
+                            tab.classList.add('border-transparent', 'text-gray-500');
+                        });
+                        
+                        this.classList.add('active', 'border-primary-500', 'text-primary-600');
+                        this.classList.remove('border-transparent', 'text-gray-500');
+                        
+                        document.querySelectorAll('.tab-panel').forEach(panel => {
+                            panel.classList.add('hidden');
+                        });
+                        
+                        document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                    });
+                }
+            });
+
+            // Code input event for line numbers (Kept as is)
+            const codeInput = document.getElementById('code-input');
+            codeInput.addEventListener('input', function() {
+                updateLineNumbers();
+                autoSaveCode();
+            });
+
+            // Handle tab key in code editor (Kept as is)
+            codeInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    
+                    // Get current cursor position
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+                    
+                    // Insert 4 spaces at cursor position
+                    this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                    
+                    // Move cursor to after the inserted spaces
+                    this.selectionStart = this.selectionEnd = start + 4;
+                    
+                    // Update line numbers
+                    updateLineNumbers();
+                    autoSaveCode();
+                }
+            });
+            
+            // Load Solution button (Kept as is)
+            document.getElementById('load-solution').addEventListener('click', function() {
+                document.getElementById('code-input').value = solutionCode;
+                updateLineNumbers();
+                showOutputMessage("Solution loaded to editor!", "success");
+            });
+            
+            // Button event listeners (Kept as is)
+            document.getElementById('run-code').addEventListener('click', runCode);
+            document.getElementById('submit-code').addEventListener('click', submitCode);
+            document.getElementById('run-all-tests').addEventListener('click', runAllTests);
+            
+            document.getElementById('reset-code').addEventListener('click', function() {
+                document.getElementById('code-input').value = templateCode;
+                updateLineNumbers();
+                showOutputMessage("Code has been reset to template.", "info");
+            });
+
+            document.getElementById('clear-all').addEventListener('click', function() {
+                document.getElementById('code-input').value = '';
+                updateLineNumbers();
+                showOutputMessage("Code editor has been cleared.", "info");
+            });
+
+            document.getElementById('copy-code').addEventListener('click', function() {
+                const codeInput = document.getElementById('code-input');
+                codeInput.select();
+                navigator.clipboard.writeText(codeInput.value).then(() => {
+                    showOutputMessage("Code copied to clipboard!", "success");
+                });
+            });
+
+            /// Back to Problems button
+            document.getElementById('back-to-problems').addEventListener('click', function() {
+                // Store the current problem ID in localStorage before navigating back
+                localStorage.setItem('lastViewedProblem', currentProblem.id);
+                window.location.href = '../problems.html';
+            });
+
+            // Keyboard shortcuts (Kept as is)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    runCode();
+                }
+                
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+                    submitCode();
+                }
+            });
+        }
+
+        // Test case definitions with their expected output (UPDATED for problem 4)
+        const testCases = [
+            { 
+                name: "Normal Factorial: 5", 
+                input: "5", 
+                expectedOutput: "Factorial of 5 is 120"
+            },
+            { 
+                name: "Zero Factorial: 0", 
+                input: "0", 
+                expectedOutput: "Factorial of 0 is 1"
+            },
+            { 
+                name: "Small Factorial: 1", 
+                input: "1", 
+                expectedOutput: "Factorial of 1 is 1"
+            },
+            { 
+                name: "Larger Input: 10", 
+                input: "10", 
+                expectedOutput: "Factorial of 10 is 3628800"
+            },
+            { 
+                name: "Edge Case: 13 (requires long long)", 
+                input: "13", 
+                expectedOutput: "Factorial of 13 is 6227020800"
+            }
+        ];
+        
+        // Factorial function for simulation (using BigInt for accurate large number results)
+        function calculateFactorial(n) {
+            if (n < 0) return null;
+            let result = BigInt(1);
+            for (let i = 1; i <= n; i++) {
+                result *= BigInt(i);
+            }
+            return result.toString();
+        }
+
+        // Run single test case (UPDATED LOGIC)
+        function runSingleTest(index, code) {
+            const testCaseData = testCases[index];
+            const testCaseElement = document.querySelector(`.test-case[data-index="${index}"]`);
+            const testStatus = testCaseElement.querySelector('.test-status');
+            
+            // Set initial running status
+            testStatus.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Running';
+            testStatus.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800';
+            
+            // Expected output comparison string
+            const expectedResultString = testCaseData.expectedOutput.replace(/\s+/g, ' ').trim();
+
+            // Simulate test execution
+            setTimeout(() => {
+                // Check if code has the key required features
+                const hasInput = code.includes('scanf("%d"') || code.includes('scanf(" %d"');
+                const hasLoop = code.includes('for (') || code.includes('while (');
+                const hasMultiplication = code.includes('*=');
+                const hasOutput = code.includes('printf("Factorial of %d is %lld\\n"');
+                const hasAllFeatures = hasInput && hasLoop && hasMultiplication && hasOutput;
+                
+                let isPassed = false;
+                
+                // Process input
+                const n = parseInt(testCaseData.input.trim());
+                
+                if (hasAllFeatures && !isNaN(n) && n >= 0) {
+                    // Simulate the C logic using the helper function
+                    const result = calculateFactorial(n);
+                    
+                    // Simulate the C output string structure
+                    const simulatedResult = `Factorial of ${n} is ${result}`;
+                    
+                    // Normalize for comparison
+                    isPassed = simulatedResult.replace(/\s+/g, ' ').trim() === expectedResultString;
+
+                } else {
+                    // Fail if basic logic or constraints are not met
+                    isPassed = false;
+                }
+                
+                if (isPassed) {
+                    testStatus.innerHTML = '<i class="fas fa-check mr-1"></i> Passed';
+                    testStatus.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                    testCaseElement.classList.add('active'); // Add active class on pass
+                } else {
+                    testStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Failed';
+                    testStatus.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                    testCaseElement.classList.remove('active'); // Remove active class on fail
+                }
+            }, 500); // Reduced delay for quicker execution look
+        }
+
+
+        // Run all test cases (UPDATED LOGIC)
+        function runAllTests() {
+            const code = document.getElementById('code-input').value;
+            const testCasesElements = document.querySelectorAll('.test-case');
+
+            // 1. Reset all test statuses to "Running" first
+            testCasesElements.forEach(testCase => {
+                const testStatus = testCase.querySelector('.test-status');
+                testStatus.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Running';
+                testStatus.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800';
+                testCase.classList.remove('active');
+            });
+            
+            // 2. Clear any previous code output to indicate a new action
+            showOutputMessage("Running all tests...", "info");
+
+            // 3. Then run each test with a delay
+            testCasesElements.forEach((testCase, index) => {
+                setTimeout(() => {
+                    runSingleTest(index, code);
+                }, index * 600 + 300); // Staggered execution
+            });
+
+            // 4. Update code output status once all tests are theoretically complete
+            setTimeout(() => {
+                // Check if all are passed (simple check)
+                const allPassed = Array.from(testCasesElements).every(tc => tc.querySelector('.test-status').textContent.includes('Passed'));
+                if (allPassed) {
+                    showOutputMessage("All tests passed! You can submit your code.", "success");
+                } else {
+                    showOutputMessage("Some tests failed. Check the status next to each test case.", "error");
+                }
+            }, testCasesElements.length * 600 + 800);
+        }
+
+        // Update submission history (Simplified: does nothing as history is removed)
+        function updateSubmissionHistory() {
+            // No history container to update
+        }
+
+        // Run code simulation - Enhanced to actually run the code (FIXED LOGIC)
+        function runCode() {
+            const codeInput = document.getElementById('code-input').value;
+            const userInput = document.getElementById('user-input-box').value; // Get user input
+            const codeOutputContent = document.getElementById('code-output-content');
+            const codeOutputStatus = document.getElementById('code-output-status');
+            
+            // Show running status
+            codeOutputStatus.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Running';
+            codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800';
+            
+            // Clear previous output
+            codeOutputContent.innerHTML = '';
+            
+            // Simulate code execution
+            setTimeout(() => {
+                // Check if code is valid C code
+                const hasMainFunction = codeInput.includes('int main()') || codeInput.includes('void main()');
+                const hasInclude = codeInput.includes('#include');
+                
+                if (!hasMainFunction || !hasInclude) {
+                    // Show error for invalid code
+                    codeOutputContent.innerHTML = `
+                        <div class="output-content output-error">Compilation error: Invalid C code</div>
+                        <div class="output-content output-error">Make sure to include stdio.h and define a main function</div>
+                    `;
+                    codeOutputStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Execution Failed';
+                    codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                    return;
+                }
+                
+                // Check for key features
+                const hasInput = codeInput.includes('scanf("%d"') || codeInput.includes('scanf(" %d"');
+                const hasLoop = codeInput.includes('for (') || codeInput.includes('while (');
+                const hasMultiplication = codeInput.includes('*=');
+                const hasOutput = codeInput.includes('printf("Factorial of %d is %lld\\n"');
+
+                // Process input for simulation
+                const n = parseInt(userInput.trim());
+                let simulatedOutput = '';
+                
+                if (!isNaN(n)) {
+                    // Simulate Prompts and Input Display
+                    simulatedOutput += `<div class="output-content">Enter a non-negative integer: ${n}</div>`;
+                    
+                    if (n < 0) {
+                        simulatedOutput += `<div class="output-content output-error">Factorial is not defined for negative numbers.</div>`;
+                        codeOutputStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Execution Failed';
+                        codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                        codeOutputContent.innerHTML = simulatedOutput;
+                        return;
+                    }
+
+                    if (hasInput && hasLoop && hasMultiplication && hasOutput) {
+                        // Simulate the C logic
+                        const result = calculateFactorial(n);
+                        
+                        // Simulate the full output format
+                        let outputFormat = `Factorial of ${n} is ${result}`;
+                        
+                        simulatedOutput += `<div class="output-content">${outputFormat}</div>`;
+                        
+                        codeOutputStatus.innerHTML = '<i class="fas fa-check mr-1"></i> Execution Successful';
+                        codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+
+                    } else {
+                        // Show error for incomplete code
+                        codeOutputContent.innerHTML = `
+                            <div class="output-content output-error">Compilation error: Incomplete iterative implementation or incorrect output specifier (%lld)</div>
+                        `;
+                        codeOutputStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Execution Failed';
+                        codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                        return;
+                    }
+
+                } else {
+                    // If user input is empty or insufficient
+                    simulatedOutput = `
+                        <div class="output-content output-error">Execution Error: A single integer is required for simulation.</div>
+                        <div class="output-content output-error">Please enter the integer in the User Input box.</div>
+                    `;
+                    codeOutputStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Execution Failed';
+                    codeOutputStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                }
+                
+                codeOutputContent.innerHTML = simulatedOutput;
+            }, 1500);
+        }
+
+        // Submit code simulation (UPDATED LOGIC)
+        function submitCode() {
+            const codeInput = document.getElementById('code-input').value;
+            const submissionResults = document.getElementById('submission-results');
+            const resultsContent = document.getElementById('results-content');
+            const submissionStatus = document.getElementById('submission-status');
+            
+            // Show submission status
+            submissionStatus.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Judging';
+            submissionStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800';
+            
+            // Show submission results section
+            submissionResults.classList.remove('hidden');
+            
+            // Clear previous results
+            resultsContent.innerHTML = '';
+            
+            // Simulate submission
+            setTimeout(() => {
+                // Check if code is correct (simple heuristic for this easy problem)
+                const hasInput = codeInput.includes('scanf("%d"');
+                const hasLoop = codeInput.includes('for (') || codeInput.includes('while (');
+                const hasLongLong = codeInput.includes('long long factorial') || codeInput.includes('%lld');
+                const hasIterativeLogic = codeInput.includes('*=');
+                
+                const isCorrect = hasInput && hasLoop && hasLongLong && hasIterativeLogic;
+                const totalTestCases = 5;
+                const passedTestCases = isCorrect ? 5 : 0;
+                const failedTestCases = isCorrect ? 0 : 5;
+                
+                // Update results
+                resultsContent.innerHTML = `
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div class="text-center p-4 ${isCorrect ? 'bg-green-50' : 'bg-red-50'} rounded-lg">
+                            <div class="text-2xl font-bold ${isCorrect ? 'text-green-600' : 'text-red-600'}">${passedTestCases}</div>
+                            <div class="text-sm ${isCorrect ? 'text-green-800' : 'text-red-800'}">Passed</div>
+                        </div>
+                        <div class="text-center p-4 ${isCorrect ? 'bg-red-50' : 'bg-green-50'} rounded-lg">
+                            <div class="text-2xl font-bold ${isCorrect ? 'text-red-600' : 'text-green-600'}">${failedTestCases}</div>
+                            <div class="text-sm ${isCorrect ? 'text-red-800' : 'text-green-800'}">Failed</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-50 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">${totalTestCases}</div>
+                            <div class="text-sm text-blue-800">Total</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Update status based on results
+                if (isCorrect) {
+                    submissionStatus.innerHTML = '<i class="fas fa-check mr-1"></i> Accepted';
+                    submissionStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                    submissionResults.classList.add('success-animation');
+                    
+                    // Update user progress in localStorage
+                    const userProgress = JSON.parse(localStorage.getItem('csStudioUserProgress')) || {};
+                    userProgress[currentProblem.id] = 'solved';
+                    localStorage.setItem('csStudioUserProgress', JSON.stringify(userProgress));
+                    
+                    setTimeout(() => {
+                        submissionResults.classList.remove('success-animation');
+                    }, 2000);
+
+                    // SHOW SUCCESS NOTIFICATION
+                    showFloatingNotification("Code submitted successfully!", "success");
+
+                } else {
+                    submissionStatus.innerHTML = '<i class="fas fa-times mr-1"></i> Wrong Answer';
+                    submissionStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                    
+                    // Update user progress in localStorage
+                    const userProgress = JSON.parse(localStorage.getItem('csStudioUserProgress')) || {};
+                    userProgress[currentProblem.id] = 'attempted';
+                    localStorage.setItem('csStudioUserProgress', JSON.stringify(userProgress));
+
+                    // SHOW FAILURE NOTIFICATION
+                    showFloatingNotification("Submission Failed: Wrong Answer.", "error");
+                }
+                
+            }, 2000);
+        }
+
+        // Show message in output (Kept as is)
+        function showOutputMessage(message, type = "info") {
+            const codeOutputContent = document.getElementById('code-output-content');
+            const codeOutputStatus = document.getElementById('code-output-status');
+            
+            const colorClass = type === "success" ? "text-green-400" : 
+                              type === "error" ? "text-red-400" : "text-blue-400";
+            
+            codeOutputContent.innerHTML = `<div class="${colorClass}">${message}</div>`;
+            codeOutputStatus.innerHTML = `<i class="fas fa-info-circle mr-1"></i> ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            codeOutputStatus.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                type === "success" ? "bg-green-100 text-green-800" : 
+                type === "error" ? "bg-red-100 text-red-800" : "bg-blue-100 text-blue-800"
+            }`;
+        }
+        
+        // ADDED: Function to display the small floating notification
+        function showFloatingNotification(message, type) {
+            let color = type === "success" ? "bg-green-500" : "bg-red-500";
+            let icon = type === "success" ? "fas fa-check-circle" : "fas fa-times-circle";
+
+            // Create the notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-5 right-5 z-50 p-4 rounded-lg shadow-xl text-white ${color} transition-opacity duration-300 transform translate-x-0 opacity-100`;
+            notification.innerHTML = `<i class="${icon} mr-2"></i> ${message}`;
+
+            document.body.appendChild(notification);
+
+            // Automatically hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('translate-x-0', 'opacity-100');
+                notification.classList.add('translate-x-full', 'opacity-0');
+                
+                // Remove from DOM after transition
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProblemData();
+            initializeEventListeners();
+            updateSubmissionHistory(); // Now does nothing
+            updateLineNumbers();
+            
+            // Set up auto-save interval
+            setInterval(autoSaveCode, 30000); // Auto-save every 30 seconds
+        });
+    </script>
+</body>
+</html>
